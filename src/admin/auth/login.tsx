@@ -1,10 +1,18 @@
 import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import { loginRequest } from "../../redux/actions/authActions";
 
 const Login = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [loginType, setLoginType] = useState<"password" | "otp">("password");
-  const [identifier, setIdentifier] = useState(""); // mobile or email
+  const [role, setRole] = useState("user");
+  // const [email, setEmail] = useState("");
+  // const [mobile, setMobile] = useState("");
+
+  const [identifier, setIdentifier] = useState("");
   const [otp, setOtp] = useState(["", "", "", ""]);
   const [showOtpModal, setShowOtpModal] = useState(false);
 
@@ -49,9 +57,27 @@ const Login = () => {
   // Handle password login (dummy)
   const handlePasswordLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    navigate("/dashboard");
-  };
+    const password = (document.getElementById("password") as HTMLInputElement)
+      ?.value;
 
+    // Simple check: agar sirf number hai to mobile, warna email
+    const isMobile = /^\d{10}$/.test(identifier);
+    const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(identifier);
+
+    let payload: any = { password, role };
+
+    if (isMobile) {
+      payload.mobile = identifier;
+    } else if (isEmail) {
+      payload.email = identifier;
+    } else {
+      // Invalid input
+      toast.error("Please enter a valid email or 10-digit mobile number");
+      return;
+    }
+
+    dispatch(loginRequest({ ...payload, navigate }));
+  };
   return (
     <div
       className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-white"
@@ -103,18 +129,36 @@ const Login = () => {
                 className="block text-gray-700 mb-1 font-medium"
                 htmlFor="identifier"
               >
-                Mobile or Email
+                Email or Mobile
               </label>
               <input
-                autoComplete="off"
                 className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
                 type="text"
                 id="identifier"
-                placeholder="Enter mobile number or email"
+                placeholder="Enter email or mobile"
                 value={identifier}
                 onChange={(e) => setIdentifier(e.target.value)}
-                required
               />
+            </div>
+            <div className="mb-5">
+              <label
+                className="block text-gray-700 mb-1 font-medium"
+                htmlFor="role"
+              >
+                Role
+              </label>
+              <select
+                id="role"
+                className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+                value={role}
+                onChange={(e) => setRole(e.target.value)}
+                required
+              >
+                <option value="user">User</option>
+                <option value="customer">Customer</option>
+                <option value="admin">Admin</option>
+                <option value="superadmin">Superadmin</option>
+              </select>
             </div>
             {loginType === "password" ? (
               <>
@@ -154,13 +198,7 @@ const Login = () => {
               <a href="#" className="text-blue-600 hover:underline font-medium">
                 Forgot my password
               </a>
-            </div>
-            <div className="mt-8 text-center text-gray-500 text-sm">
-              If You Don't Have An Account, Create{" "}
-              <button className="ml-2 px-4 py-1 border border-gray-300 rounded-xl hover:bg-gray-100 transition font-medium">
-                Register
-              </button>
-            </div>
+            </div>            
           </form>
         </div>
         {/* Right: Image */}

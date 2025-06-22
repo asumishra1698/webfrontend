@@ -4,6 +4,8 @@ import "./App.css";
 
 // admin routes
 import Login from "./admin/auth/login";
+import Dashboard from "./admin/dashboard"; 
+
 
 function Home() {
   return (
@@ -19,6 +21,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />       
         <Route path="/login" element={<Login />} /> 
+         <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </Router>
   );
