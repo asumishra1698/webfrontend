@@ -5,21 +5,13 @@ import "./App.css";
 // admin routes
 import Login from "./admin/auth/login";
 import Dashboard from "./admin/dashboard"; 
-
-
-function Home() {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <h1 className="text-4xl font-bold text-blue-600">Welcome to Home</h1>
-    </div>
-  );
-}
+import Portfolio from "../src/website/pages/index"; // Capitalize component name
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Home />} />       
+        <Route path="/" element={<Portfolio />} />       
         <Route path="/login" element={<Login />} /> 
          <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
