@@ -150,7 +150,7 @@ export default function Portfolio() {
             <span className="inline-block bg-pink-100 text-pink-700 px-4 py-1 rounded-full text-xs font-bold mb-4 tracking-widest">
               ABOUT COMPANY
             </span>
-            <h2 className="text-4xl md:text-5xl font-extrabold mb-6 text-gray-900 leading-tight">
+            <h2 className="text-3xl md:text-4xl font-extrabold mb-6 text-gray-900 leading-tight">
               More than <span className="text-blue-700">5+ years</span> we
               provide IT solutions &amp; Software Innovation
             </h2>
@@ -272,7 +272,7 @@ export default function Portfolio() {
             <span className="inline-block bg-pink-100 text-pink-700 px-4 py-1 rounded-full text-xs font-bold mb-4 tracking-widest">
               WHAT WE DO
             </span>
-            <h2 className="text-4xl md:text-5xl font-extrabold mb-6 text-gray-900 leading-tight">
+            <h2 className="text-3xl md:text-4xl font-extrabold mb-6 text-gray-900 leading-tight">
               Eliminate the IT challenges your business is facing
             </h2>
             <ul className="space-y-6">
@@ -309,7 +309,7 @@ export default function Portfolio() {
       {/* Services Section */}
       <section className="py-10 px-4 max-w-full bg-white" id="services">
         <div className="max-w-7xl mx-auto items-center gap-12 ">
-          <h2 className="text-4xl font-bold text-center mb-12 text-gray-900">
+          <h2 className="text-3xl md:text-4xl font-extrabold mb-8 text-center text-gray-900 leading-tight">
             Our Services
           </h2>
           <div className="grid md:grid-cols-3 gap-10 max-w-7xl mx-auto">
@@ -339,7 +339,7 @@ export default function Portfolio() {
       {/* Our Technology Section */}
       <section className="py-10 px-4 bg-gray-50" id="technology">
         <div className="max-w-7xl mx-auto items-center">
-          <h2 className="text-3xl font-bold text-center mb-10 text-gray-900">
+          <h2 className="text-3xl md:text-4xl font-extrabold mb-8 text-center text-gray-900 leading-tight">
             Our Technology
           </h2>
           <Swiper
@@ -487,7 +487,7 @@ export default function Portfolio() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-blue-800 text-white text-center py-6 mt-10">
+      <footer className="bg-blue-800 text-white text-center py-2 mt-10">
         &copy; {new Date().getFullYear()} gonardweb. All rights reserved.
       </footer>
     </div>
