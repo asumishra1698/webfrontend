@@ -1,16 +1,21 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
+// import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { loginRequest } from "../../redux/actions/authActions";
+import {
+  loginRequest,
+  requestEmailLoginOtpRequest,
+  verifyEmailLoginOtpRequest,
+} from "../../redux/actions/authActions";
 
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const otpVerified = useSelector((state: any) => state.auth.otpVerified);
+  const otpSuccess = useSelector((state: any) => state.auth.otpSuccess);
   const [loginType, setLoginType] = useState<"password" | "otp">("password");
   const [role, setRole] = useState("user");
-  // const [email, setEmail] = useState("");
-  // const [mobile, setMobile] = useState("");
 
   const [identifier, setIdentifier] = useState("");
   const [otp, setOtp] = useState(["", "", "", ""]);
@@ -40,18 +45,52 @@ const Login = () => {
     }
   };
 
-  // Reset OTP fields when modal opens
-  const openOtpModal = () => {
-    setOtp(["", "", "", ""]);
-    setShowOtpModal(true);
-    setTimeout(() => otpRefs[0].current?.focus(), 100); // Focus first input
+  const handleSendOtp = () => {
+    // Simple check: agar sirf number hai to mobile, warna email
+    const isMobile = /^\d{10}$/.test(identifier);
+    const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(identifier);
+
+    let payload: any = { role };
+    if (isMobile) {
+      payload.mobile = identifier;
+    } else if (isEmail) {
+      payload.email = identifier;
+    } else {
+      toast.error("Please enter a valid email or 10-digit mobile number");
+      return;
+    }
+
+    dispatch(requestEmailLoginOtpRequest(payload));
+    // openOtpModal();
   };
 
   // Handle OTP verification (dummy)
   const handleVerifyOtp = (e: React.FormEvent) => {
     e.preventDefault();
-    setShowOtpModal(false);
-    navigate("/dashboard");
+    const code = otp.join("");
+    if (code.length !== 4) {
+      toast.error("Please enter the 4-digit OTP");
+      return;
+    }
+
+    let payload: any = { otp: code, role };
+    const isMobile = /^\d{10}$/.test(identifier);
+    const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(identifier);
+
+    if (isMobile) {
+      payload.mobile = identifier;
+    } else if (isEmail) {
+      payload.email = identifier;
+    }
+
+    dispatch(verifyEmailLoginOtpRequest({ ...payload, navigate }));
+  };
+
+  // Reset OTP fields when modal opens
+  const openOtpModal = () => {
+    setOtp(["", "", "", ""]);
+    setShowOtpModal(true);
+    setTimeout(() => otpRefs[0].current?.focus(), 100); // Focus first input
   };
 
   // Handle password login (dummy)
@@ -78,6 +117,16 @@ const Login = () => {
 
     dispatch(loginRequest({ ...payload, navigate }));
   };
+
+  useEffect(() => {
+    if (otpVerified) {
+      setShowOtpModal(false);
+      navigate("/dashboard");
+    } else if (otpSuccess) {
+      openOtpModal();
+    }
+  }, [otpSuccess, otpVerified, navigate]);
+
   return (
     <div
       className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-white"
@@ -189,7 +238,7 @@ const Login = () => {
               <button
                 type="button"
                 className="w-full mt-2 bg-blue-700 hover:bg-blue-800 text-white font-semibold py-3 rounded-xl transition text-lg shadow"
-                onClick={openOtpModal}
+                onClick={handleSendOtp}
               >
                 Send OTP
               </button>
@@ -198,7 +247,7 @@ const Login = () => {
               <a href="#" className="text-blue-600 hover:underline font-medium">
                 Forgot my password
               </a>
-            </div>            
+            </div>
           </form>
         </div>
         {/* Right: Image */}
