@@ -5,7 +5,7 @@ import "./App.css";
 // admin routes
 import Login from "./admin/auth/login";
 import Dashboard from "./admin/dashboard"; 
-import Portfolio from "../src/website/pages/index"; // Capitalize component name
+import Portfolio from "../src/website/pages/index";
 
 function App() {
   return (
