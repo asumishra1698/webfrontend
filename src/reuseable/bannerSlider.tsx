@@ -1,26 +1,24 @@
 import React from "react";
 import Slider from "react-slick";
+type Banner = {
+  title: string;
+  subtitle: string;
+  img: string;
+  cta1: {
+    text: string;
+    link: string;
+  };
+  cta2: {
+    text: string;
+    link: string;
+  };
+};
 
-const banners = [
-  {
-    title: "Explore integrated LMS and HRM solution",
-    subtitle:
-      "Evaluate unified solutions for Lead Management (LMS) and Human Resource Management (HRM). Schedule your free LMS demo today!",
-    img: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80",
-    cta1: { text: "Discover More", link: "#" },
-    cta2: { text: "Contact Us", link: "#" },
-  },
-  {
-    title: "Explore integrated LMS and HRM solution",
-    subtitle:
-      "Evaluate unified solutions for Lead Management (LMS) and Human Resource Management (HRM). Schedule your free LMS demo today!",
-    img: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80",
-    cta1: { text: "Discover More", link: "#" },
-    cta2: { text: "Contact Us", link: "#" },
-  },
-];
+type BannerSliderProps = {
+  banners: Banner[];
+};
 
-const BannerSlider: React.FC = () => {
+const BannerSlider: React.FC<BannerSliderProps> = ({ banners }) => {
   const settings = {
     dots: true,
     infinite: true,

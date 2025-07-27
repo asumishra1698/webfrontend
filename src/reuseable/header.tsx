@@ -14,15 +14,15 @@ const Header: React.FC = () => {
           <a href="/">Products</a>
           <a href="/">Solutions</a>
           <a href="/">Work</a>
-          <a href="/pricing">Pricing</a>
+          <a href="/">Pricing</a>
           <a href="/">Human Resources</a>
-          <a href="/blog">Blog</a>
+          <a href="/">Blog</a>
           <a href="/contact-us">Contact Us</a>
         </nav>
         <div className="hidden lg:flex flex-col text-right text-xs text-gray-600">
           <span className="text-sm">Have Any Questions?</span>
           <span className="text-blue-900 font-bold">
-            (+91) 8929406040 / (+44) 7990271147
+            (+91) 7827284932 / (+91) 7827284932
           </span>
         </div>
         <button onClick={() => setMenuOpen(true)} className="lg:hidden">
