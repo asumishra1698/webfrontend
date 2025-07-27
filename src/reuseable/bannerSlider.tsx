@@ -10,7 +10,7 @@ const banners = [
     cta1: { text: "Discover More", link: "#" },
     cta2: { text: "Contact Us", link: "#" },
   },
-   {
+  {
     title: "Explore integrated LMS and HRM solution",
     subtitle:
       "Evaluate unified solutions for Lead Management (LMS) and Human Resource Management (HRM). Schedule your free LMS demo today!",
@@ -18,7 +18,6 @@ const banners = [
     cta1: { text: "Discover More", link: "#" },
     cta2: { text: "Contact Us", link: "#" },
   },
-  // Add more slides as needed
 ];
 
 const BannerSlider: React.FC = () => {
@@ -34,8 +33,8 @@ const BannerSlider: React.FC = () => {
   };
 
   return (
-   <div className="w-full overflow-hidden">
-  <Slider {...settings}>
+    <div className="w-full overflow-hidden">
+      <Slider {...settings}>
         {banners.map((banner, idx) => (
           <div key={idx}>
             <div

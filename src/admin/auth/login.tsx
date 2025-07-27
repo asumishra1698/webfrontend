@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useMemo , useEffect, useCallback } from "react";
 // import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,32 +21,31 @@ const Login = () => {
   const [otp, setOtp] = useState(["", "", "", ""]);
   const [showOtpModal, setShowOtpModal] = useState(false);
 
-  const otpRefs = [
-    useRef<HTMLInputElement>(null),
-    useRef<HTMLInputElement>(null),
-    useRef<HTMLInputElement>(null),
-    useRef<HTMLInputElement>(null),
-  ];
+  const otpRefs = useMemo(
+  () => [
+    React.createRef<HTMLInputElement>(),
+    React.createRef<HTMLInputElement>(),
+    React.createRef<HTMLInputElement>(),
+    React.createRef<HTMLInputElement>(),
+  ],
+  []
+);
 
-  // Handle OTP input
+
   const handleOtpChange = (index: number, value: string) => {
-    if (!/^\d?$/.test(value)) return; // Only allow single digit
+    if (!/^\d?$/.test(value)) return;
     const newOtp = [...otp];
     newOtp[index] = value;
     setOtp(newOtp);
-
-    // Move to next input if value entered
     if (value && index < 3) {
       otpRefs[index + 1].current?.focus();
     }
-    // Move to previous input if deleted
     if (!value && index > 0) {
       otpRefs[index - 1].current?.focus();
     }
   };
 
   const handleSendOtp = () => {
-    // Simple check: agar sirf number hai to mobile, warna email
     const isMobile = /^\d{10}$/.test(identifier);
     const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(identifier);
 
@@ -61,10 +60,9 @@ const Login = () => {
     }
 
     dispatch(requestEmailLoginOtpRequest(payload));
-    // openOtpModal();
+    openOtpModal();
   };
 
-  // Handle OTP verification (dummy)
   const handleVerifyOtp = (e: React.FormEvent) => {
     e.preventDefault();
     const code = otp.join("");
@@ -86,20 +84,16 @@ const Login = () => {
     dispatch(verifyEmailLoginOtpRequest({ ...payload, navigate }));
   };
 
-  // Reset OTP fields when modal opens
-  const openOtpModal = () => {
+  const openOtpModal = useCallback(() => {
     setOtp(["", "", "", ""]);
     setShowOtpModal(true);
-    setTimeout(() => otpRefs[0].current?.focus(), 100); // Focus first input
-  };
+    setTimeout(() => otpRefs[0].current?.focus(), 100);
+  }, [otpRefs]);
 
-  // Handle password login (dummy)
   const handlePasswordLogin = (e: React.FormEvent) => {
     e.preventDefault();
     const password = (document.getElementById("password") as HTMLInputElement)
       ?.value;
-
-    // Simple check: agar sirf number hai to mobile, warna email
     const isMobile = /^\d{10}$/.test(identifier);
     const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(identifier);
 
@@ -110,7 +104,6 @@ const Login = () => {
     } else if (isEmail) {
       payload.email = identifier;
     } else {
-      // Invalid input
       toast.error("Please enter a valid email or 10-digit mobile number");
       return;
     }
@@ -125,7 +118,7 @@ const Login = () => {
     } else if (otpSuccess) {
       openOtpModal();
     }
-  }, [otpSuccess, otpVerified, navigate]);
+  }, [otpSuccess, otpVerified, navigate, openOtpModal]);
 
   return (
     <div
@@ -138,13 +131,11 @@ const Login = () => {
       }}
     >
       <div className="bg-white/90 rounded-3xl shadow-2xl flex flex-col md:flex-row w-full max-w-md md:max-w-4xl overflow-hidden mx-2 sm:mx-4">
-        {/* Left: Login Form */}
         <div className="w-full md:w-1/2 p-8 sm:p-10 flex flex-col justify-center">
           <h2 className="text-4xl font-extrabold text-gray-900 mb-1">Login</h2>
           <p className="text-gray-500 mb-8 text-base">
             Login with Password or OTP
           </p>
-          {/* Radio Buttons */}
           <div className="flex items-center mb-7 gap-8">
             <label className="flex items-center cursor-pointer">
               <input
@@ -244,7 +235,7 @@ const Login = () => {
               </button>
             )}
             <div className="flex justify-between mt-2 text-sm">
-              <a href="#" className="text-blue-600 hover:underline font-medium">
+              <a href="/" className="text-blue-600 hover:underline font-medium">
                 Forgot my password
               </a>
             </div>

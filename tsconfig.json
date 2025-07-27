@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "esnext", // Use "esnext" for modern React projects
+    "target": "esnext",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -11,8 +11,8 @@
     "noEmit": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
-    "moduleResolution": "node", // Add this for better module compatibility
-    "module": "esnext" // Add this for modern module support
+    "moduleResolution": "node",
+    "module": "esnext"
   },
   "include": ["src"]
 }

@@ -21,7 +21,7 @@ function* loginSaga(action: any): any {
       `${BASE_URL}auth/login`,
       action.payload
     );
-    localStorage.setItem("token", response.token);
+    localStorage.setItem("token", response.user.token);
     localStorage.setItem("user", JSON.stringify(response.user));
 
     yield put({ type: LOGIN_SUCCESS, payload: response });
@@ -63,7 +63,7 @@ function* verifyEmailLoginOtpSaga(action: any): any {
       `${BASE_URL}auth/login/verify-email-otp`,
       action.payload
     );
-    
+
     localStorage.setItem("token", response.token);
     localStorage.setItem("user", JSON.stringify(response.user));
     yield put({ type: VERIFY_EMAIL_LOGIN_OTP_SUCCESS, payload: response });
