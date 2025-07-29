@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
-import Header from "../../reuseable/header";
-import Footer from "../../reuseable/footer";
+import React from "react";
+import Layout from "../../reuseable/layout";
 import BannerSlider from "../../reuseable/bannerSlider";
 import { useDocumentMeta } from "../../reuseable/useDocumentMeta";
 
@@ -39,13 +38,9 @@ const About: React.FC = () => {
   });
 
   return (
-    <div className="font-sans bg-gray-50 text-gray-800 overflow-x-hidden min-h-screen flex flex-col">
-      <Header />
-      <main className="flex-grow">
-        <BannerSlider banners={banners} />
-      </main>
-      <Footer />
-    </div>
+    <Layout>
+      <BannerSlider banners={banners} />      
+    </Layout>
   );
 };
 

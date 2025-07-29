@@ -1,10 +1,11 @@
-import Header from "../../reuseable/header";
-import Footer from "../../reuseable/footer";
+import React from "react";
+import Layout from "../../reuseable/layout";
 export default function Contact() {
   return (
-    <div className="font-sans bg-gray-50 text-gray-800 overflow-x-hidden">
-      <Header />
-      <Footer />
-    </div>
+    <Layout>
+      <div className="font-sans bg-gray-50 text-gray-800 overflow-x-hidden">
+        <h1>Contact Us</h1>
+      </div>
+    </Layout>
   );
 }

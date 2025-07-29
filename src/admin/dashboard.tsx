@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   FaBars,
   FaChartPie,
@@ -9,11 +10,12 @@ import {
   FaEye,
 } from "react-icons/fa";
 
-// Fix for react-icons TS2786 error: use as function call for icons in arrays
-const Sidebar: React.FC<{ collapsed: boolean; onCollapse: () => void }> = ({
-  collapsed,
-  onCollapse,
-}) => (
+// Sidebar component
+const Sidebar: React.FC<{
+  collapsed: boolean;
+  onCollapse: () => void;
+  onLogout: () => void;
+}> = ({ collapsed, onCollapse, onLogout }) => (
   <aside
     className={`bg-blue-800 text-white h-screen transition-all duration-300 ${
       collapsed ? "w-16" : "w-64"
@@ -28,7 +30,7 @@ const Sidebar: React.FC<{ collapsed: boolean; onCollapse: () => void }> = ({
         onClick={onCollapse}
         aria-label="Toggle Sidebar"
       >
-        {FaBars({ size: 20 })}
+        <FaBars size={20} />
       </button>
     </div>
     <nav className="flex-1 mt-4">
@@ -38,7 +40,7 @@ const Sidebar: React.FC<{ collapsed: boolean; onCollapse: () => void }> = ({
             href="#dashboard"
             className="flex items-center px-4 py-2 hover:bg-blue-700 rounded transition"
           >
-            {FaChartPie({ className: "mr-3", size: 18 })}
+            <FaChartPie className="mr-3" size={18} />
             {!collapsed && "Dashboard"}
           </a>
         </li>
@@ -47,7 +49,7 @@ const Sidebar: React.FC<{ collapsed: boolean; onCollapse: () => void }> = ({
             href="#orders"
             className="flex items-center px-4 py-2 hover:bg-blue-700 rounded transition"
           >
-            {FaBoxOpen({ className: "mr-3", size: 18 })}
+            <FaBoxOpen className="mr-3" size={18} />
             {!collapsed && "Orders"}
           </a>
         </li>
@@ -56,7 +58,7 @@ const Sidebar: React.FC<{ collapsed: boolean; onCollapse: () => void }> = ({
             href="#users"
             className="flex items-center px-4 py-2 hover:bg-blue-700 rounded transition"
           >
-            {FaUsers({ className: "mr-3", size: 18 })}
+            <FaUsers className="mr-3" size={18} />
             {!collapsed && "Users"}
           </a>
         </li>
@@ -65,15 +67,18 @@ const Sidebar: React.FC<{ collapsed: boolean; onCollapse: () => void }> = ({
             href="#profile"
             className="flex items-center px-4 py-2 hover:bg-blue-700 rounded transition"
           >
-            {FaUser({ className: "mr-3", size: 18 })}
+            <FaUser className="mr-3" size={18} />
             {!collapsed && "Profile"}
           </a>
         </li>
       </ul>
     </nav>
     <div className="px-4 py-4 border-t border-blue-700">
-      <button className="flex items-center w-full text-left hover:bg-blue-700 px-2 py-2 rounded transition">
-        {FaSignOutAlt({ className: "mr-3", size: 18 })}
+      <button
+        className="flex items-center w-full text-left hover:bg-blue-700 px-2 py-2 rounded transition"
+        onClick={onLogout}
+      >
+        <FaSignOutAlt className="mr-3" size={18} />
         {!collapsed && "Logout"}
       </button>
     </div>
@@ -86,9 +91,9 @@ const InfoCard: React.FC<{
   icon: React.ReactNode;
   color: string;
 }> = ({ title, value, icon, color }) => (
-  <div className={`flex items-center p-5 rounded-xl shadow bg-white`}>
+  <div className="flex items-center p-5 rounded-xl shadow bg-white">
     <div
-      className={`rounded-full p-3 text-white mr-4 flex items-center justify-center`}
+      className="rounded-full p-3 text-white mr-4 flex items-center justify-center"
       style={{ background: color }}
     >
       {icon}
@@ -102,40 +107,46 @@ const InfoCard: React.FC<{
 
 const Dashboard: React.FC = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const navigate = useNavigate();
 
-  // Dummy analytics data
   const analytics = [
     {
       title: "Total Orders",
       value: 1240,
-      icon: FaBoxOpen({ size: 24 }),
+      icon: <FaBoxOpen size={24} />,
       color: "#2563eb",
     },
     {
       title: "Active Users",
       value: 312,
-      icon: FaUsers({ size: 24 }),
+      icon: <FaUsers size={24} />,
       color: "#059669",
     },
     {
       title: "Live Visitors",
       value: 27,
-      icon: FaEye({ size: 24 }),
+      icon: <FaEye size={24} />,
       color: "#f59e42",
     },
     {
       title: "Admins",
       value: 5,
-      icon: FaUser({ size: 24 }),
+      icon: <FaUser size={24} />,
       color: "#a21caf",
     },
   ];
+
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate("/login");
+  };
 
   return (
     <div className="flex min-h-screen bg-blue-50">
       <Sidebar
         collapsed={sidebarCollapsed}
         onCollapse={() => setSidebarCollapsed((c) => !c)}
+        onLogout={handleLogout}
       />
       <div
         className={`flex-1 ml-0 transition-all duration-300 ${
@@ -164,8 +175,7 @@ const Dashboard: React.FC = () => {
             <h2 className="text-xl font-semibold mb-4">Analytics Overview</h2>
             <p className="text-gray-600 mb-4">
               Here you can add charts, graphs, and more detailed analytics.
-            </p>
-            {/* Placeholder for charts or tables */}
+            </p>            
             <div className="h-40 flex items-center justify-center text-gray-400">
               [Charts/Graphs Placeholder]
             </div>
