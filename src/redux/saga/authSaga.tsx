@@ -77,7 +77,7 @@ function* verifyEmailLoginOtpSaga(action: any): any {
   }
 }
 
-export default function* authSaga() {
+export function* watchAuth() {
   yield takeLatest(LOGIN_REQUEST, loginSaga);
   yield takeLatest(REQUEST_EMAIL_LOGIN_OTP_REQUEST, requestEmailLoginOtpSaga);
   yield takeLatest(VERIFY_EMAIL_LOGIN_OTP_REQUEST, verifyEmailLoginOtpSaga);

@@ -1,6 +1,5 @@
 import axios from "axios";
 
-// POST Request Helper
 export const postRequest = async (
   url: string,
   payload: any,
@@ -28,7 +27,6 @@ export const postRequest = async (
   }
 };
 
-// GET Request Helper
 export const getRequest = async (
   url: string,
   params: any = null,
