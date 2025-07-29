@@ -2,6 +2,7 @@ import { call, put, takeLatest } from "redux-saga/effects";
 import * as actionTypes from "../actions/actionsTypes";
 import { getRequest, postRequest } from "../../config/apihelpers";
 import { BASE_URL } from "../../config";
+import Swal from "sweetalert2";
 
 function* createContactSaga(action: any): Generator<any, void, any> {
   try {
@@ -15,6 +16,14 @@ function* createContactSaga(action: any): Generator<any, void, any> {
       type: actionTypes.CREATE_CONTACT_SUCCESS,
       payload: response,
     });
+    yield call(() =>
+      Swal.fire({
+        title: "Success!",
+        text: "Successfully submitted! Thank you.",
+        icon: "success",
+        confirmButtonText: "OK",
+      })
+    );
   } catch (error: any) {
     yield put({
       type: actionTypes.CREATE_CONTACT_FAILURE,

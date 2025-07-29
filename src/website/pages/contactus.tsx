@@ -4,6 +4,7 @@ import { createContactRequest } from "../../redux/actions/contactActions";
 import { RootState } from "../../redux/store";
 import Layout from "../../reuseable/layout";
 import { FaFacebook, FaTwitter, FaLinkedin, FaInstagram } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 export default function Contact() {
   const dispatch = useDispatch();
