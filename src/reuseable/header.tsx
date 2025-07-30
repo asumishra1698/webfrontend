@@ -20,7 +20,7 @@ const Header: React.FC = () => {
     <header className="sticky top-0 z-50 bg-white shadow-md border-b">
       <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
         <a href="/" className="flex items-center space-x-2">
-          <span className="text-2xl font-bold text-red-600">Gonard</span>
+          <span className="text-2xl font-bold text-red-600">React</span>
           <span className="text-2xl font-bold text-gray-700">Web</span>
         </a>
         <nav className="hidden lg:flex items-center space-x-6 text-sm font-medium text-gray-700">

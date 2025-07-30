@@ -1,14 +1,11 @@
 import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import AppRoutes from "./routes/AppRoutes";
-import { HelmetProvider } from "react-helmet-async";
 
 function App() {
   return (
     <Router>
-      <HelmetProvider>
-        <AppRoutes />
-      </HelmetProvider>
+      <AppRoutes />
     </Router>
   );
 }
