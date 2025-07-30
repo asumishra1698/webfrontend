@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import Layout from "../../reuseable/layout";
+import Layout from "../../components/layout";
 import { useDispatch, useSelector } from "react-redux";
 import { getPostsRequest } from "../../redux/actions/blogActions";
 import { RootState } from "../../redux/store";

@@ -1,7 +1,7 @@
 import React from "react";
-import Layout from "../../reuseable/layout";
-import BannerSlider from "../../reuseable/bannerSlider";
-import { useDocumentMeta } from "../../reuseable/useDocumentMeta";
+import Layout from "../../components/layout";
+import BannerSlider from "../../components/bannerSlider";
+import { useDocumentMeta } from "../../components/useDocumentMeta";
 
 type Banner = {
   title: string;
@@ -32,8 +32,8 @@ const banners: Banner[] = [
 
 const About: React.FC = () => {
   useDocumentMeta({
-    title: "About Us | Gonard Web",
-    description: "About Gonard Web services and solutions.",
+    title: "About Us | ReactWeb",
+    description: "About ReactWeb services and solutions.",
     canonicalUrl: "https://gonardweb.com/about-us",
   });
 

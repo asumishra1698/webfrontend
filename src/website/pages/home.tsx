@@ -3,16 +3,16 @@ import {
   Swiper as SwiperTestimonial,
   SwiperSlide as SwiperSlideTestimonial,
 } from "swiper/react";
-import BannerSlider from "../../reuseable/bannerSlider";
-import { useDocumentMeta } from "../../reuseable/useDocumentMeta";
+import BannerSlider from "../../components/bannerSlider";
 import { FaCheckCircle } from "react-icons/fa";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/autoplay";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import Header from "../../reuseable/header";
-import Footer from "../../reuseable/footer";
+import Header from "../../components/header";
+import Footer from "../../components/footer";
+import { useDocumentMeta } from "../../components/useDocumentMeta";
 
 const banners = [
   {
@@ -294,8 +294,8 @@ const accordionData = [
 
 export default function Home() {
   useDocumentMeta({
-    title: "Home | Gonard Web",
-    description: "Gonard Web services and solutions.",
+    title: "Home | ReactWeb",
+    description: "ReactWeb services and solutions.",
     canonicalUrl: "https://gonardweb.com/about-us",
   });
   const [openAccordion, setOpenAccordion] = useState<number | null>(null);

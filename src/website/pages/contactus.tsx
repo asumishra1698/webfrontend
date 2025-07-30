@@ -2,12 +2,18 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createContactRequest } from "../../redux/actions/contactActions";
 import { RootState } from "../../redux/store";
-import Layout from "../../reuseable/layout";
+import Layout from "../../components/layout";
+import { useDocumentMeta } from "../../components/useDocumentMeta";
 import { FaFacebook, FaTwitter, FaLinkedin, FaInstagram } from "react-icons/fa";
-
 
 export default function Contact() {
   const dispatch = useDispatch();
+  useDocumentMeta({
+    title: "Contact Us | ReactWeb",
+    description: "Get in touch with ReactWeb for inquiries and support.",
+    canonicalUrl: "https://gonardweb.com/contact-us",
+  });
+
   const { loading, error, success } = useSelector(
     (state: RootState) => state.contact
   );

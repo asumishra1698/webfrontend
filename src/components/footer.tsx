@@ -169,10 +169,10 @@ const Footer: React.FC = () => {
         <div className="border-t mt-12 pt-8 flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="text-center md:text-left">
             <a href="/" className="text-2xl font-bold text-gray-900">
-              React Web
+              ReactWeb
             </a>
             <p className="text-sm text-gray-500 mt-1">
-              © {currentYear} React Web. All rights reserved.
+              © {currentYear} ReactWeb. All rights reserved.
             </p>
             <div className="flex gap-4 text-sm text-gray-500 mt-2 justify-center md:justify-start">
               <a href="/privacy-policy" className="hover:underline">
