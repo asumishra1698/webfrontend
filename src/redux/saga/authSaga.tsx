@@ -11,7 +11,7 @@ import {
   VERIFY_EMAIL_LOGIN_OTP_FAILURE,
 } from "../actions/actionsTypes";
 import { postRequest } from "../../config/apihelpers";
-import { BASE_URL } from "../../config";
+import { BASE_URL } from "../../config/webRoutes";
 import { toast } from "react-toastify";
 
 function* loginSaga(action: any): any {

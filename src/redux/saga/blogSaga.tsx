@@ -6,7 +6,7 @@ import {
   putRequest,
   deleteRequest,
 } from "../../config/apihelpers";
-import { BASE_URL } from "../../config";
+import { BASE_URL } from "../../config/webRoutes";
 
 function* getPostsSaga(action: any): Generator<any, void, any> {
   try {

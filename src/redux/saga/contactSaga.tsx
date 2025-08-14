@@ -1,7 +1,7 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import * as actionTypes from "../actions/actionsTypes";
 import { getRequest, postRequest } from "../../config/apihelpers";
-import { BASE_URL } from "../../config";
+import { BASE_URL } from "../../config/webRoutes";
 import Swal from "sweetalert2";
 
 function* createContactSaga(action: any): Generator<any, void, any> {

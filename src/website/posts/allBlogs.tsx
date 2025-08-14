@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getPostsRequest } from "../../redux/actions/blogActions";
 import { RootState } from "../../redux/store";
 import { Link } from "react-router-dom";
-import { BASE_URL } from "../../config";
+import { BASE_URL } from "../../config/webRoutes";
 
 export default function Blogs() {
   const dispatch = useDispatch();
