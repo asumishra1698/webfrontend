@@ -28,11 +28,6 @@ const socialLinks = [
     icon: <FaInstagram />,
   },
   {
-    href: "https://linkedin.com",
-    label: "LinkedIn",
-    icon: <FaLinkedin />,
-  },
-  {
     href: "https://youtube.com",
     label: "YouTube",
     icon: <FaYoutube />,
