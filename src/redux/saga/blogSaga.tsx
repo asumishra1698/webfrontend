@@ -1,14 +1,14 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import * as actionTypes from "../actions/actionsTypes";
 import { getRequest } from "../../config/apihelpers";
-import { BASE_URL } from "../../config/webRoutes";
+import { API_URL } from "../../config/webRoutes";
 
 function* getPostsSaga(action: any): Generator<any, void, any> {
   try {
     const { page, limit, search } = action.payload;
     const response = yield call(
       getRequest,
-      `${BASE_URL}blog/posts?page=${page}&limit=${limit}&search=${search}&status=${action.payload.status}`
+      `${API_URL}blog/posts?page=${page}&limit=${limit}&search=${search}&status=${action.payload.status}`
     );
     console.log("Response:", response);
     yield put({
@@ -27,7 +27,7 @@ function* getPostsSaga(action: any): Generator<any, void, any> {
 function* getPostBySlugSaga(action: any): Generator<any, void, any> {
   try {
     const { slug } = action.payload;
-    const response = yield call(getRequest, `${BASE_URL}blog/posts/${slug}`);
+    const response = yield call(getRequest, `${API_URL}blog/posts/${slug}`);
     yield put({
       type: actionTypes.GET_POST_BY_SLUG_SUCCESS,
       payload: { post: response }, // response ek post object hona chahiye

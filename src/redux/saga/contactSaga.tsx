@@ -1,7 +1,7 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import * as actionTypes from "../actions/actionsTypes";
 import { getRequest, postRequest } from "../../config/apihelpers";
-import { BASE_URL } from "../../config/webRoutes";
+import { API_URL } from "../../config/webRoutes";
 import Swal from "sweetalert2";
 
 function* createContactSaga(action: any): Generator<any, void, any> {
@@ -9,7 +9,7 @@ function* createContactSaga(action: any): Generator<any, void, any> {
     const { contactData } = action.payload;
     const response = yield call(
       postRequest,
-      `${BASE_URL}contact/submit`,
+      `${API_URL}contact/submit`,
       contactData
     );
     yield put({
@@ -37,7 +37,7 @@ function* getContactsSaga(action: any): Generator<any, void, any> {
     const { page, limit, search } = action.payload;
     const response = yield call(
       getRequest,
-      `${BASE_URL}contact/all?page=${page}&limit=${limit}&search=${search}`
+      `${API_URL}contact/all?page=${page}&limit=${limit}&search=${search}`
     );
     yield put({
       type: actionTypes.GET_CONTACTS_SUCCESS,

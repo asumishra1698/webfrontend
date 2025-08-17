@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getPostBySlugRequest } from "../../redux/actions/blogActions";
 import { RootState } from "../../redux/store";
 import { MEDIA_URL } from "../../config/webRoutes";
+import { useDocumentMeta } from "../../components/useDocumentMeta";
 
 // Define the Post type for type safety
 type Post = {
@@ -36,6 +37,12 @@ export default function BlogDetails() {
   const { blog, loading, error } = useSelector(
     (state: RootState) => state.blog
   );
+
+  useDocumentMeta({
+    title: blog?.metaTitle || "",
+    description: blog?.metaDescription || "",
+    canonicalUrl: blog?.canonicalUrl || window.location.href,
+  });
 
   useEffect(() => {
     if (slug) {

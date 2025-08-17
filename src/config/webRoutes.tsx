@@ -1,6 +1,6 @@
-export const BASE_URL = "http://localhost:5000/api/";
+export const API_URL = "http://localhost:5000/api/";
+export const WEB_URL = "http://localhost:3000/";
 export const MEDIA_URL = "http://localhost:5000/uploads/";
 
-
-// export const BASE_URL = "https://gonardweb.com/api";
+// export const API_URL = "https://gonardweb.com/api";
 // export const MEDIA_URL = "https://gonardweb.com/";

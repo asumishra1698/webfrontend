@@ -24,20 +24,19 @@ export function useDocumentMeta({
       metaDescription.setAttribute("content", description);
     }
     let canonicalLink = document.querySelector("link[rel='canonical']");
-    if (!canonicalLink && canonicalUrl) {
+    const finalCanonicalUrl = window.location.href;
+    if (!canonicalLink) {
       canonicalLink = document.createElement("link");
       canonicalLink.setAttribute("rel", "canonical");
       document.head.appendChild(canonicalLink);
     }
-    if (canonicalLink && canonicalUrl) {
-      canonicalLink.setAttribute("href", canonicalUrl);
+    if (canonicalLink) {
+      canonicalLink.setAttribute("href", finalCanonicalUrl);
     }
     return () => {
       document.title = defaultTitle;
       if (metaDescription && description) {
         metaDescription.setAttribute("content", "");
-      }
-      if (canonicalLink && canonicalUrl) {
       }
     };
   }, [title, description, canonicalUrl]);
