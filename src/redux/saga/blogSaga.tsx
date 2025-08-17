@@ -1,11 +1,6 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import * as actionTypes from "../actions/actionsTypes";
-import {
-  postRequest,
-  getRequest,
-  putRequest,
-  deleteRequest,
-} from "../../config/apihelpers";
+import { getRequest } from "../../config/apihelpers";
 import { BASE_URL } from "../../config/webRoutes";
 
 function* getPostsSaga(action: any): Generator<any, void, any> {
@@ -13,7 +8,7 @@ function* getPostsSaga(action: any): Generator<any, void, any> {
     const { page, limit, search } = action.payload;
     const response = yield call(
       getRequest,
-      `${BASE_URL}blog/posts?page=${page}&limit=${limit}&search=${search}`
+      `${BASE_URL}blog/posts?page=${page}&limit=${limit}&search=${search}&status=${action.payload.status}`
     );
     console.log("Response:", response);
     yield put({
@@ -29,50 +24,18 @@ function* getPostsSaga(action: any): Generator<any, void, any> {
   }
 }
 
-function* createPostSaga(action: any): Generator<any, void, any> {
+function* getPostBySlugSaga(action: any): Generator<any, void, any> {
   try {
-    const { postData } = action.payload;
-    const response = yield call(postRequest, `${BASE_URL}blog/posts`, postData);
+    const { slug } = action.payload;
+    const response = yield call(getRequest, `${BASE_URL}blog/posts/${slug}`);
     yield put({
-      type: actionTypes.CREATE_POST_SUCCESS,
-      payload: response.data,
+      type: actionTypes.GET_POST_BY_SLUG_SUCCESS,
+      payload: { post: response }, // response ek post object hona chahiye
     });
+    console.log("Post by slug:", response);
   } catch (error: any) {
     yield put({
-      type: actionTypes.CREATE_POST_FAILURE,
-      payload: { error: error.message },
-    });
-  }
-}
-
-function* updatePostSaga(action: any): Generator<any, void, any> {
-  try {
-    const { id, postData } = action.payload;
-    const response = yield call(
-      putRequest,
-      `${BASE_URL}blog/posts/${id}`,
-      postData
-    );
-    yield put({
-      type: actionTypes.UPDATE_POST_SUCCESS,
-      payload: response.data,
-    });
-  } catch (error: any) {
-    yield put({
-      type: actionTypes.UPDATE_POST_FAILURE,
-      payload: { error: error.message },
-    });
-  }
-}
-
-function* deletePostSaga(action: any): Generator<any, void, any> {
-  try {
-    const { id } = action.payload;
-    yield call(deleteRequest, `${BASE_URL}blog/posts/${id}`);
-    yield put({ type: actionTypes.DELETE_POST_SUCCESS, payload: { id } });
-  } catch (error: any) {
-    yield put({
-      type: actionTypes.DELETE_POST_FAILURE,
+      type: actionTypes.GET_POST_BY_SLUG_FAILURE,
       payload: { error: error.message },
     });
   }
@@ -80,7 +43,5 @@ function* deletePostSaga(action: any): Generator<any, void, any> {
 
 export function* watchBlog() {
   yield takeLatest(actionTypes.GET_POSTS_REQUEST, getPostsSaga);
-  yield takeLatest(actionTypes.CREATE_POST_REQUEST, createPostSaga);
-  yield takeLatest(actionTypes.UPDATE_POST_REQUEST, updatePostSaga);
-  yield takeLatest(actionTypes.DELETE_POST_REQUEST, deletePostSaga);
+  yield takeLatest(actionTypes.GET_POST_BY_SLUG_REQUEST, getPostBySlugSaga);
 }

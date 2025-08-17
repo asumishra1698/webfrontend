@@ -1,25 +1,37 @@
 import * as actionTypes from "./actionsTypes";
 
 // Get all posts
-export const getPostsRequest = (page = 1, limit = 10, search = "") => ({
+export const getPostsRequest = (
+  page = 1,
+  limit = 10,
+  search = "",
+  status = "published"
+) => ({
   type: actionTypes.GET_POSTS_REQUEST,
-  payload: { page, limit, search },
+  payload: { page, limit, search, status },
 });
 
-// Create a post
-export const createPostRequest = (postData: any) => ({
-  type: actionTypes.CREATE_POST_REQUEST,
-  payload: { postData },
+export const getPostsSuccess = (posts: any[], pagination: any) => ({
+  type: actionTypes.GET_POSTS_SUCCESS,
+  payload: { posts, pagination },
 });
 
-// Update a post
-export const updatePostRequest = (id: string, postData: any) => ({
-  type: actionTypes.UPDATE_POST_REQUEST,
-  payload: { id, postData },
+export const getPostsFailure = (error: string) => ({
+  type: actionTypes.GET_POSTS_FAILURE,
+  payload: { error },
 });
 
-// Delete a post
-export const deletePostRequest = (id: string) => ({
-  type: actionTypes.DELETE_POST_REQUEST,
-  payload: { id },
+export const getPostBySlugRequest = (slug: string) => ({
+  type: actionTypes.GET_POST_BY_SLUG_REQUEST,
+  payload: { slug },
+});
+
+export const getPostBySlugSuccess = (post: any) => ({
+  type: actionTypes.GET_POST_BY_SLUG_SUCCESS,
+  payload: { post },
+});
+
+export const getPostBySlugFailure = (error: string) => ({
+  type: actionTypes.GET_POST_BY_SLUG_FAILURE,
+  payload: { error },
 });

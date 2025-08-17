@@ -4,6 +4,7 @@ import Home from "../website/pages/home";
 import About from "../website/pages/about";
 import Contact from "../website/pages/contactus";
 import AllBlogs from "../website/posts/allBlogs";
+import BlogDetails from "../website/posts/blogDetails";
 
 const AppRoutes = () => (
   <Routes>
@@ -11,6 +12,7 @@ const AppRoutes = () => (
     <Route path="/about-us" element={<About />} />
     <Route path="/contact-us" element={<Contact />} />
     <Route path="/blog" element={<AllBlogs />} />
+    <Route path="/blog/:slug" element={<BlogDetails />} />
   </Routes>
 );
 

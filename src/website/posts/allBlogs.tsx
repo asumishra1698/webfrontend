@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getPostsRequest } from "../../redux/actions/blogActions";
 import { RootState } from "../../redux/store";
 import { Link } from "react-router-dom";
-import { BASE_URL } from "../../config/webRoutes";
+import { MEDIA_URL } from "../../config/webRoutes";
 
 export default function Blogs() {
   const dispatch = useDispatch();
@@ -44,8 +44,8 @@ export default function Blogs() {
                       {post.featuredImage && (
                         <div className="flex-shrink-0">
                           <img
-                            className="h-56 w-full object-cover"
-                            src={`${BASE_URL}${post.featuredImage}`}
+                            className="h-auto w-full object-contain"
+                            src={`${MEDIA_URL}${post.featuredImage}`}
                             alt={post.title}
                           />
                         </div>
@@ -54,9 +54,19 @@ export default function Blogs() {
                         <h2 className="text-xl font-semibold text-gray-900 mb-3">
                           {post.title}
                         </h2>
-                        <p className="text-gray-600 text-sm mb-4 flex-grow">
-                          {post.description.substring(0, 120)}...
-                        </p>
+
+                        <p
+                          className="text-gray-600 text-sm mb-4 flex-grow"
+                          dangerouslySetInnerHTML={{
+                            __html: post.description
+                              ? post.description
+                                  .split(" ")
+                                  .slice(0, 40)
+                                  .join(" ") + "..."
+                              : "",
+                          }}
+                        ></p>
+
                         <div className="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between">
                           <div className="flex items-center">
                             <p className="text-sm font-medium text-gray-800">
