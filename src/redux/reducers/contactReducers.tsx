@@ -35,17 +35,6 @@ const initialState: ContactState = {
 
 const contactReducer = (state = initialState, action: any): ContactState => {
   switch (action.type) {
-    case actionTypes.GET_CONTACTS_REQUEST:
-    case actionTypes.CREATE_CONTACT_REQUEST:
-      return { ...state, loading: true, error: null, success: false };
-
-    case actionTypes.GET_CONTACTS_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-        contacts: action.payload.contacts,
-        pagination: action.payload.pagination,
-      };
 
     case actionTypes.CREATE_CONTACT_SUCCESS:
       return {
@@ -55,7 +44,6 @@ const contactReducer = (state = initialState, action: any): ContactState => {
         contacts: [...state.contacts, action.payload],
       };
 
-    case actionTypes.GET_CONTACTS_FAILURE:
     case actionTypes.CREATE_CONTACT_FAILURE:
       return { ...state, loading: false, error: action.payload.error, success: false };
 
