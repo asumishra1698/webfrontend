@@ -56,7 +56,7 @@ const ProductGrid: React.FC = () => {
 
                     {error && <div className="text-center text-red-600">{error}</div>}
 
-                    <div className="grid gap-10 lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1">
+                    <div className="grid gap-2 lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-2 grid-cols-2">
                         {allProducts && allProducts.length > 0 ? (
                             allProducts.map((item: any, idx: number) => {
                                 if (idx === allProducts.length - 1) {
