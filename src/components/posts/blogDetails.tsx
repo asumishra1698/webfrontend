@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import Layout from "../../components/layout";
+import Layout from "../../reuseable/layout";
 import { useDispatch, useSelector } from "react-redux";
 import { getPostBySlugRequest } from "../../redux/actions/blogActions";
 import { RootState } from "../../redux/store";
 import { MEDIA_URL } from "../../config/webRoutes";
-import { useDocumentMeta } from "../../components/useDocumentMeta";
+import { useDocumentMeta } from "../../reuseable/useDocumentMeta";
 
 // Define the Post type for type safety
 type Post = {

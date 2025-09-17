@@ -1,11 +1,11 @@
 import { Routes, Route } from "react-router-dom";
 
-import Home from "../website/pages/home";
-import About from "../website/pages/about";
-import Contact from "../website/pages/contactus";
-import AllBlogs from "../website/posts/allBlogs";
-import BlogDetails from "../website/posts/blogDetails";
-import ProductGrid from "../website/pages/productgrid";
+import Home from "../components/pages/home";
+import About from "../components/pages/about";
+import Contact from "../components/pages/contactus";
+import AllBlogs from "../components/posts/allBlogs";
+import BlogDetails from "../components/posts/blogDetails";
+import ProductGrid from "../components/pages/productgrid";
 
 const AppRoutes = () => (
   <Routes>

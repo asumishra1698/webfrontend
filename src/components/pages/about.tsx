@@ -1,7 +1,7 @@
 import React from "react";
-import Layout from "../../components/layout";
-import BannerSlider from "../../components/bannerSlider";
-import { useDocumentMeta } from "../../components/useDocumentMeta";
+import Layout from "../../reuseable/layout";
+import BannerSlider from "../../reuseable/bannerSlider";
+import { useDocumentMeta } from "../../reuseable/useDocumentMeta";
 
 type Banner = {
   title: string;

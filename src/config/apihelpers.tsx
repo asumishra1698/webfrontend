@@ -7,12 +7,10 @@ export const postRequest = async (
 ) => {
   try {
     const token = localStorage.getItem("token");
-    // Detect if payload is FormData
     const isFormData = typeof FormData !== "undefined" && payload instanceof FormData;
     const response = await axios.post(url, payload, {
       headers: {
         Authorization: `Bearer ${token}`,
-        // Only set Content-Type if NOT FormData
         ...(isFormData ? {} : { "Content-Type": "application/json" }),
         ...headers,
       },

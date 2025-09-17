@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createContactRequest } from "../../redux/actions/contactActions";
 import { RootState } from "../../redux/store";
-import Layout from "../../components/layout";
-import { useDocumentMeta } from "../../components/useDocumentMeta";
+import Layout from "../../reuseable/layout";
+import { useDocumentMeta } from "../../reuseable/useDocumentMeta";
 import { FaFacebook, FaTwitter, FaLinkedin, FaInstagram } from "react-icons/fa";
 
 export default function Contact() {

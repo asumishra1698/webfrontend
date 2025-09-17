@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Layout from "../../components/layout";
+import Layout from "../../reuseable/layout";
 import { getProductsRequest } from "../../redux/actions/productActions";
 import { MEDIA_URL } from "../../config/webRoutes";
 
@@ -82,6 +82,9 @@ const ProductGrid: React.FC = () => {
                                                 </p>
                                                 <button
                                                     className="mt-auto bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded transition-all"
+                                                    onClick={() => {
+                                                        alert(`Added ${item.name} to cart!`);
+                                                    }}
                                                 >
                                                     Add to Cart
                                                 </button>
@@ -110,6 +113,9 @@ const ProductGrid: React.FC = () => {
                                                 </p>
                                                 <button
                                                     className="mt-auto bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded transition-all"
+                                                    onClick={() => {
+                                                        alert(`Added ${item._id} to cart!`);
+                                                    }}
                                                 >
                                                     Add to Cart
                                                 </button>
