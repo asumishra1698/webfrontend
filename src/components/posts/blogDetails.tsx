@@ -7,7 +7,6 @@ import { RootState } from "../../redux/store";
 import { MEDIA_URL } from "../../config/webRoutes";
 import { useDocumentMeta } from "../../reuseable/useDocumentMeta";
 
-// Define the Post type for type safety
 type Post = {
   _id: string;
   title: string;

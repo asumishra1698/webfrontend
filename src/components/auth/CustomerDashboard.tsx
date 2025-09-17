@@ -4,7 +4,7 @@ import Layout from "../../reuseable/layout";
 import { getUserProfileRequest } from "../../redux/actions/authActions";
 import { useNavigate } from "react-router-dom";
 
-const MEDIA_URL = "http://localhost:5000/uploads/profile/"; // Replace with your actual media URL
+const MEDIA_URL = "http://localhost:5000/uploads/profile/";
 
 const CustomerDashboard: React.FC = () => {
     const dispatch = useDispatch();
