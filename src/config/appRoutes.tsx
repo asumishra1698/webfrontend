@@ -6,6 +6,8 @@ import Contact from "../components/pages/contactus";
 import AllBlogs from "../components/posts/allBlogs";
 import BlogDetails from "../components/posts/blogDetails";
 import ProductGrid from "../components/pages/productgrid";
+import CustomerLogin from "../components/auth/CustomerLogin";
+import CustomerDashboard from "../components/auth/CustomerDashboard";
 
 const AppRoutes = () => (
   <Routes>
@@ -15,6 +17,8 @@ const AppRoutes = () => (
     <Route path="/contact-us" element={<Contact />} />
     <Route path="/blog" element={<AllBlogs />} />
     <Route path="/blog/:slug" element={<BlogDetails />} />
+    <Route path="/customer/login" element={<CustomerLogin />} />
+    <Route path="/customer/dashboard" element={<CustomerDashboard />} />
   </Routes>
 );
 
