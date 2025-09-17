@@ -5,7 +5,7 @@ import About from "../components/pages/about";
 import Contact from "../components/pages/contactus";
 import AllBlogs from "../components/posts/allBlogs";
 import BlogDetails from "../components/posts/blogDetails";
-import ProductGrid from "../components/pages/productgrid";
+import ProductGrid from "../components/products/productgrid";
 import CustomerLogin from "../components/auth/CustomerLogin";
 import CustomerDashboard from "../components/auth/CustomerDashboard";
 
