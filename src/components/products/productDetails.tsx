@@ -3,25 +3,27 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import Layout from "../../reuseable/layout";
 import { getProductByIdRequest } from "../../redux/actions/productActions";
+import { addToCartRequest } from "../../redux/actions/cartActions";
+import { getUserProfileRequest } from "../../redux/actions/authActions";
 import { MEDIA_URL } from "../../config/webRoutes";
 
 const ProductDetails: React.FC<{ onAddToCart?: () => void }> = ({ onAddToCart }) => {
     const dispatch = useDispatch();
     const { id } = useParams<{ id: string }>();
     const { product, loading, error } = useSelector((state: any) => state.product);
+    const userId = useSelector((state: any) => state.auth.user?.id);
+
 
     useEffect(() => {
         if (id) {
             dispatch(getProductByIdRequest(id));
+            dispatch(getUserProfileRequest());
         }
     }, [dispatch, id]);
 
     const handleAddToCart = () => {
-        if (!product) return;
-        dispatch({
-            type: "ADD_TO_CART",
-            payload: { ...product, quantity: 1 },
-        });
+        if (!product || !userId) return;
+        dispatch(addToCartRequest(userId, product._id || product.id, 1));
         if (onAddToCart) onAddToCart();
     };
 
@@ -114,8 +116,8 @@ const ProductDetails: React.FC<{ onAddToCart?: () => void }> = ({ onAddToCart })
                         </div>
                         <button
                             className={`flex items-center justify-center gap-2 bg-gradient-to-r from-gray-600 to-gray-500 hover:from-gray-700 hover:to-gray-600 text-white font-semibold py-3 px-8 rounded-lg shadow-md transition-all duration-200
-        ${product.stock === 0 ? "opacity-60 cursor-not-allowed" : "hover:scale-105"}
-    `}
+                                    ${product.stock === 0 ? "opacity-60 cursor-not-allowed" : "hover:scale-105"}
+                                `}
                             disabled={product.stock === 0}
                             onClick={handleAddToCart}
                         >

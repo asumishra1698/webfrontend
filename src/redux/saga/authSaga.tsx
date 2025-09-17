@@ -36,7 +36,6 @@ function* getUserProfileSaga(action: any): any {
             action.payload
         );
         yield put({ type: GET_USER_PROFILE_SUCCESS, payload: response.user });
-        console.log("Fetched user profile:", response.user);
     } catch (error: any) {
         yield put({
             type: GET_USER_PROFILE_FAILURE,

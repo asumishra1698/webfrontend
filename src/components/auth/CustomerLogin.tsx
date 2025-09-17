@@ -1,37 +1,35 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginRequest } from "../../redux/actions/authActions";
-import { useNavigate } from "react-router-dom";
-import Layout from "../../reuseable/layout";
-import {  } from "../../redux/actions/authActions";
-const CustomerLogin: React.FC = () => {
+interface CustomerLoginModalProps {
+    isOpen: boolean;
+    onClose: () => void;
+}
+
+const CustomerLogin: React.FC<CustomerLoginModalProps> = ({ isOpen, onClose }) => {
     const [mobile, setMobile] = useState("");
     const [password, setPassword] = useState("");
     const dispatch = useDispatch();
-    const navigate = useNavigate();
-
-    const { loading, error, token } = useSelector((state: any) => state.auth);
-
-    useEffect(() => {
-        if (token) {
-            navigate("/customer/dashboard");
-        }
-    }, [token, navigate]);
-
+    const { loading } = useSelector((state: any) => state.auth);
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         dispatch(loginRequest({ mobile, password }));
     };
 
+    if (!isOpen) return null;
+
     return (
-        <Layout>
-            <div className="flex items-center justify-center min-h-screen bg-gray-100">
-                <form
-                    onSubmit={handleSubmit}
-                    className="bg-white p-8 rounded shadow-md w-full max-w-sm"
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+            <div className="bg-white p-8 rounded shadow-md w-full max-w-sm relative">
+                <button
+                    onClick={onClose}
+                    className="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-2xl"
+                    aria-label="Close"
                 >
-                    <h2 className="text-2xl font-bold mb-6 text-center">Customer Login</h2>
-                    {error && <div className="text-red-500 mb-4">{error}</div>}
+                    &times;
+                </button>
+                <h2 className="text-2xl font-bold mb-6 text-center">Customer Login</h2>
+                <form onSubmit={handleSubmit}>
                     <div className="mb-4">
                         <label className="block mb-1">Mobile Number</label>
                         <input
@@ -64,7 +62,7 @@ const CustomerLogin: React.FC = () => {
                     </button>
                 </form>
             </div>
-        </Layout>
+        </div>
     );
 };
 

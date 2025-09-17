@@ -18,7 +18,7 @@ const CustomerDashboard: React.FC = () => {
     const handleLogout = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("id");
-        navigate("/customer/login");
+        navigate("/");
     };
 
     const addresses = [

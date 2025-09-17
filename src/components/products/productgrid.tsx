@@ -5,7 +5,7 @@ import { getProductsRequest } from "../../redux/actions/productActions";
 import { MEDIA_URL } from "../../config/webRoutes";
 import { Link } from "react-router-dom";
 
-const ProductGrid: React.FC = () => {
+const ProductGrid: React.FC<{ onAddToCart?: () => void }> = ({ onAddToCart }) => {
     const dispatch = useDispatch();
     const { products = [], loading = false, error = null, pagination } = useSelector(
         (state: any) => state.product || {}
@@ -82,7 +82,7 @@ const ProductGrid: React.FC = () => {
                                                 className="mt-auto bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded transition-all"
                                                 onClick={e => {
                                                     e.stopPropagation();
-                                                    alert(`Added ${item.name} to cart!`);
+                                                    if (onAddToCart) onAddToCart();
                                                 }}
                                             >
                                                 Add to Cart

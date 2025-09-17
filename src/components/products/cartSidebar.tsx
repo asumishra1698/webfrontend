@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { MEDIA_URL } from "../../config/webRoutes";
+import { getCartItemsRequest } from "../../redux/actions/cartActions";
 
 interface CartSidebarProps {
     isOpen: boolean;
@@ -8,8 +9,16 @@ interface CartSidebarProps {
 }
 
 const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => {
-    const cart = useSelector((state: any) => state.cart?.items || []);
     const dispatch = useDispatch();
+    const cart = useSelector((state: any) => state.cart?.cart || []);
+    const loading = useSelector((state: any) => state.cart?.loading);
+    const userId = useSelector((state: any) => state.auth.user?._id || state.auth.user?.id);
+
+    useEffect(() => {
+        if (isOpen && userId) {
+            dispatch(getCartItemsRequest(userId));
+        }
+    }, [isOpen, userId, dispatch]);
 
     const getTotal = () =>
         cart.reduce((sum: number, item: any) => sum + item.price * item.quantity, 0);
@@ -32,49 +41,54 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => {
                 aria-modal="true"
                 aria-label="Shopping cart"
             >
-                <div className="flex justify-between items-center p-4 border-b">
-                    <h2 className="text-xl font-bold">Your Cart</h2>
-                    <button onClick={onClose} className="text-gray-500 hover:text-gray-800 text-2xl" aria-label="Close cart">&times;</button>
-                </div>
-                <div className="p-4 flex-1 overflow-y-auto">
-                    {cart.length === 0 ? (
-                        <div className="text-gray-500 text-center mt-10">Your cart is empty.</div>
-                    ) : (
-                        cart.map((item: any) => (
-                            <div key={item._id || item.id} className="flex items-center mb-4 border-b pb-2">
-                                <img
-                                    src={`${MEDIA_URL}products/${item.thumbnail}`}
-                                    alt={item.name}
-                                    className="w-16 h-16 object-cover rounded mr-3"
-                                />
-                                <div className="flex-1">
-                                    <div className="font-semibold">{item.name}</div>
-                                    <div className="text-sm text-gray-600">Qty: {item.quantity}</div>
-                                    <div className="text-sm text-green-700 font-bold">₹{item.price}</div>
-                                </div>
-                                <button
-                                    onClick={() => handleRemove(item._id || item.id)}
-                                    className="text-red-500 hover:text-red-700 ml-2"
-                                    title="Remove"
-                                    aria-label={`Remove ${item.name} from cart`}
-                                >
-                                    &#10005;
-                                </button>
-                            </div>
-                        ))
-                    )}
-                </div>
-                <div className="p-4 border-t">
-                    <div className="flex justify-between font-bold text-lg mb-4">
-                        <span>Total:</span>
-                        <span>₹{getTotal()}</span>
+                <div className="flex flex-col h-full">
+                    <div className="flex justify-between items-center p-4 border-b">
+                        <h2 className="text-xl font-bold">Your Cart</h2>
+                        <button onClick={onClose} className="text-gray-500 hover:text-gray-800 text-2xl" aria-label="Close cart">&times;</button>
                     </div>
-                    <button
-                        className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded font-semibold"
-                        disabled={cart.length === 0}
-                    >
-                        Checkout
-                    </button>
+                    <div className="p-4 flex-1 overflow-y-auto">
+                        {loading ? (
+                            <div className="text-center text-gray-500 mt-10">Loading cart...</div>
+                        ) : cart.length === 0 ? (
+                            <div className="text-gray-500 text-center mt-10">Your cart is empty.</div>
+                        ) : (
+                            cart.map((item: any) => (
+                                <div key={item._id || item.id} className="flex items-center mb-4 border-b pb-2">
+                                    <img
+                                        src={`${MEDIA_URL}products/${item.thumbnail}`}
+                                        alt={item.name}
+                                        className="w-16 h-16 object-cover rounded mr-3"
+                                    />
+                                    <div className="flex-1">
+                                        <div className="font-semibold">{item.name}</div>
+                                        <div className="text-sm text-gray-600">Qty: {item.quantity}</div>
+                                        <div className="text-sm text-green-700 font-bold">₹{item.price}</div>
+                                    </div>
+                                    <button
+                                        onClick={() => handleRemove(item._id || item.id)}
+                                        className="text-red-500 hover:text-red-700 ml-2"
+                                        title="Remove"
+                                        aria-label={`Remove ${item.name} from cart`}
+                                    >
+                                        &#10005;
+                                    </button>
+                                </div>
+                            ))
+                        )}
+                    </div>
+
+                    <div className="p-4 border-t bg-white sticky bottom-0 left-0 right-0">
+                        <div className="flex justify-between font-bold text-lg mb-4">
+                            <span>Total:</span>
+                            <span>₹{getTotal()}</span>
+                        </div>
+                        <button
+                            className="w-full bg-gradient-to-r from-gray-600 to-gray-500 hover:from-gray-700 hover:to-gray-600 text-white font-semibold py-3 px-8 rounded-lg shadow-md transition-all duration-200"
+                            disabled={cart.length === 0}
+                        >
+                            Checkout
+                        </button>
+                    </div>
                 </div>
             </aside>
         </>

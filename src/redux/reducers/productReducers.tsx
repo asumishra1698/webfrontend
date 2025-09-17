@@ -38,6 +38,7 @@ const productReducer = (state = initialState, action: any) => {
             return { ...state, loading: false, product: action.payload.product };
         case GET_PRODUCT_BY_ID_FAILURE:
             return { ...state, loading: false, error: action.payload.error };
+
         default:
             return state;
     }

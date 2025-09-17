@@ -3,6 +3,7 @@ import authReducer from "./authReducers";
 import blogReducer from "./blogreducers";
 import contactReducer from "./contactReducers";
 import productReducer from "./productReducers";
+import cartReducer from "./cartReducer";
 
 
 const rootReducer = combineReducers({
@@ -10,6 +11,7 @@ const rootReducer = combineReducers({
   contact: contactReducer,
   product: productReducer,
   auth: authReducer,
+  cart: cartReducer,
 });
 
 export default rootReducer;

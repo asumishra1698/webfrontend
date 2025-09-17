@@ -7,7 +7,7 @@ import {
   GET_PRODUCT_BY_ID_FAILURE,
 } from "../actions/actionsTypes";
 import { call, put, takeLatest } from "redux-saga/effects";
-import { getRequest } from "../../config/apihelpers";
+import { getRequest, postRequest } from "../../config/apihelpers";
 import { API_URL } from "../../config/webRoutes";
 
 function* getProductsSaga(action: any): any {

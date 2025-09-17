@@ -10,12 +10,10 @@ function* getPostsSaga(action: any): Generator<any, void, any> {
       getRequest,
       `${API_URL}blog/posts?page=${page}&limit=${limit}&search=${search}&status=${action.payload.status}`
     );
-    console.log("Response:", response);
     yield put({
       type: actionTypes.GET_POSTS_SUCCESS,
       payload: response,
-    });
-    console.log("Pagination:", response.pagination);
+    });   
   } catch (error: any) {
     yield put({
       type: actionTypes.GET_POSTS_FAILURE,
@@ -30,9 +28,8 @@ function* getPostBySlugSaga(action: any): Generator<any, void, any> {
     const response = yield call(getRequest, `${API_URL}blog/posts/${slug}`);
     yield put({
       type: actionTypes.GET_POST_BY_SLUG_SUCCESS,
-      payload: { post: response }, // response ek post object hona chahiye
-    });
-    console.log("Post by slug:", response);
+      payload: { post: response },
+    });  
   } catch (error: any) {
     yield put({
       type: actionTypes.GET_POST_BY_SLUG_FAILURE,
