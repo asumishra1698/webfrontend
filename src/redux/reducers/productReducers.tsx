@@ -2,6 +2,9 @@ import {
     GET_PRODUCTS_REQUEST,
     GET_PRODUCTS_SUCCESS,
     GET_PRODUCTS_FAILURE,
+    GET_PRODUCT_BY_ID_REQUEST,
+    GET_PRODUCT_BY_ID_SUCCESS,
+    GET_PRODUCT_BY_ID_FAILURE,
 } from "../actions/actionsTypes";
 
 const initialState = {
@@ -28,6 +31,12 @@ const productReducer = (state = initialState, action: any) => {
                 },
             };
         case GET_PRODUCTS_FAILURE:
+            return { ...state, loading: false, error: action.payload.error };
+        case GET_PRODUCT_BY_ID_REQUEST:
+            return { ...state, loading: true, error: null };
+        case GET_PRODUCT_BY_ID_SUCCESS:
+            return { ...state, loading: false, product: action.payload.product };
+        case GET_PRODUCT_BY_ID_FAILURE:
             return { ...state, loading: false, error: action.payload.error };
         default:
             return state;

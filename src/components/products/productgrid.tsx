@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Layout from "../../reuseable/layout";
 import { getProductsRequest } from "../../redux/actions/productActions";
 import { MEDIA_URL } from "../../config/webRoutes";
+import { Link } from "react-router-dom";
 
 const ProductGrid: React.FC = () => {
     const dispatch = useDispatch();
@@ -59,68 +60,57 @@ const ProductGrid: React.FC = () => {
                     <div className="grid gap-2 lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-2 grid-cols-2">
                         {allProducts && allProducts.length > 0 ? (
                             allProducts.map((item: any, idx: number) => {
+                                const card = (
+                                    <div
+                                        className="bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 flex flex-col cursor-pointer"
+                                    >
+                                        <div className="flex-shrink-0">
+                                            <img
+                                                className="h-auto w-full object-cover bg-gray-100"
+                                                src={`${MEDIA_URL}products/${item.thumbnail}`}
+                                                alt={item.name}
+                                            />
+                                        </div>
+                                        <div className="p-6 flex flex-col flex-grow">
+                                            <h2 className="text-xl font-semibold text-gray-900 mb-2">
+                                                {item.name}
+                                            </h2>
+                                            <p className="text-lg font-bold text-green-600 mb-4">
+                                                ₹{item.price}
+                                            </p>
+                                            <button
+                                                className="mt-auto bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded transition-all"
+                                                onClick={e => {
+                                                    e.stopPropagation();
+                                                    alert(`Added ${item.name} to cart!`);
+                                                }}
+                                            >
+                                                Add to Cart
+                                            </button>
+                                        </div>
+                                    </div>
+                                );
+
                                 if (idx === allProducts.length - 1) {
                                     return (
-                                        <div
+                                        <Link
                                             ref={lastProductRef}
                                             key={item._id || item.id}
-                                            className="bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 flex flex-col"
+                                            to={`/products/${item._id || item.id}`}
+                                            style={{ textDecoration: "none" }}
                                         >
-                                            <div className="flex-shrink-0">
-                                                <img
-                                                    className="h-56 w-full object-cover bg-gray-100"
-                                                    src={`${MEDIA_URL}products/${item.thumbnail}`}
-                                                    alt={item.name}
-                                                />
-                                            </div>
-                                            <div className="p-6 flex flex-col flex-grow">
-                                                <h2 className="text-xl font-semibold text-gray-900 mb-2">
-                                                    {item.name}
-                                                </h2>
-                                                <p className="text-lg font-bold text-green-600 mb-4">
-                                                    ₹{item.price}
-                                                </p>
-                                                <button
-                                                    className="mt-auto bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded transition-all"
-                                                    onClick={() => {
-                                                        alert(`Added ${item.name} to cart!`);
-                                                    }}
-                                                >
-                                                    Add to Cart
-                                                </button>
-                                            </div>
-                                        </div>
+                                            {card}
+                                        </Link>
                                     );
                                 } else {
                                     return (
-                                        <div
+                                        <Link
                                             key={item._id || item.id}
-                                            className="bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 flex flex-col"
+                                            to={`/products/${item._id || item.id}`}
+                                            style={{ textDecoration: "none" }}
                                         >
-                                            <div className="flex-shrink-0">
-                                                <img
-                                                    className="h-56 w-full object-cover bg-gray-100"
-                                                    src={`${MEDIA_URL}products/${item.thumbnail}`}
-                                                    alt={item.name}
-                                                />
-                                            </div>
-                                            <div className="p-6 flex flex-col flex-grow">
-                                                <h2 className="text-xl font-semibold text-gray-900 mb-2">
-                                                    {item.name}
-                                                </h2>
-                                                <p className="text-lg font-bold text-green-600 mb-4">
-                                                    ₹{item.price}
-                                                </p>
-                                                <button
-                                                    className="mt-auto bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded transition-all"
-                                                    onClick={() => {
-                                                        alert(`Added ${item._id} to cart!`);
-                                                    }}
-                                                >
-                                                    Add to Cart
-                                                </button>
-                                            </div>
-                                        </div>
+                                            {card}
+                                        </Link>
                                     );
                                 }
                             })

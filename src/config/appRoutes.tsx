@@ -8,12 +8,14 @@ import BlogDetails from "../components/posts/blogDetails";
 import ProductGrid from "../components/products/productgrid";
 import CustomerLogin from "../components/auth/CustomerLogin";
 import CustomerDashboard from "../components/auth/CustomerDashboard";
+import ProductPage from "../components/products/ProductPage";
 
 const AppRoutes = () => (
   <Routes>
     <Route path="/" element={<Home />} />
     <Route path="/about-us" element={<About />} />
     <Route path="/products" element={<ProductGrid />} />
+    <Route path="/products/:id" element={<ProductPage />} />
     <Route path="/contact-us" element={<Contact />} />
     <Route path="/blog" element={<AllBlogs />} />
     <Route path="/blog/:slug" element={<BlogDetails />} />
