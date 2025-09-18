@@ -1,13 +1,15 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { checkoutRequest } from "../../redux/actions/cartActions";
 
 const Checkout: React.FC = () => {
+    const dispatch = useDispatch();
     const cart = useSelector((state: any) => state.cart?.cart || []);
     const user = useSelector((state: any) => state.auth.user);
 
+
     const [form, setForm] = useState({
-        name: user?.name || "",
-        email: user?.email || "",
+        name: user?.name || "",      
         number: user?.number || "",
         address: "",
         paymentMethod: "COD",
@@ -21,25 +23,16 @@ const Checkout: React.FC = () => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        // API call here
         const payload = {
             userId: user?._id || user?.id,
-            ...form,
+            name: form.name,
+            number: form.number,
+            address: form.address,
+            paymentMethod: form.paymentMethod,
         };
-        const res = await fetch("http://localhost:5000/api/orders/checkout", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload),
-        });
-        const data = await res.json();
-        if (data.success) {
-            alert("Order placed successfully!");
-            // Optionally redirect or clear cart
-        } else {
-            alert("Order failed!");
-        }
+        dispatch(checkoutRequest(payload));
     };
 
     return (
@@ -57,18 +50,7 @@ const Checkout: React.FC = () => {
                         className="w-full border px-3 py-2 rounded"
                         required
                     />
-                </div>
-                <div>
-                    <label className="block mb-1 font-medium">Email</label>
-                    <input
-                        type="email"
-                        name="email"
-                        value={form.email}
-                        onChange={handleChange}
-                        className="w-full border px-3 py-2 rounded"
-                        required
-                    />
-                </div>
+                </div>               
                 <div>
                     <label className="block mb-1 font-medium">Mobile Number</label>
                     <input

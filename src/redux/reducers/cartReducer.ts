@@ -5,6 +5,9 @@ import {
     GET_CART_ITEMS_REQUEST,
     GET_CART_ITEMS_SUCCESS,
     GET_CART_ITEMS_FAILURE,
+    CHECKOUT_REQUEST,
+    CHECKOUT_SUCCESS,
+    CHECKOUT_FAILURE
 } from "../actions/actionsTypes";
 
 const initialState = {
@@ -28,6 +31,12 @@ const cartReducer = (state = initialState, action: any) => {
             };
         case ADD_TO_CART_FAILURE:
         case GET_CART_ITEMS_FAILURE:
+            return { ...state, loading: false, error: action.payload.error };
+        case CHECKOUT_REQUEST:
+            return { ...state, loading: true, error: null };
+        case CHECKOUT_SUCCESS:
+            return { ...state, loading: false, error: null, cart: [] };
+        case CHECKOUT_FAILURE:
             return { ...state, loading: false, error: action.payload.error };
         default:
             return state;

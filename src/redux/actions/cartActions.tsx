@@ -5,6 +5,9 @@ import {
     GET_CART_ITEMS_REQUEST,
     GET_CART_ITEMS_SUCCESS,
     GET_CART_ITEMS_FAILURE,
+    CHECKOUT_REQUEST,
+    CHECKOUT_SUCCESS,
+    CHECKOUT_FAILURE
 } from "./actionsTypes";
 
 
@@ -31,5 +34,18 @@ export const getCartItemsSuccess = (cart: any) => ({
 });
 export const getCartItemsFailure = (error: any) => ({
     type: GET_CART_ITEMS_FAILURE,
+    payload: { error },
+});
+
+export const checkoutRequest = (payload: any) => ({
+    type: CHECKOUT_REQUEST,
+    payload,
+});
+export const checkoutSuccess = (order: any) => ({
+    type: CHECKOUT_SUCCESS,
+    payload: { order },
+});
+export const checkoutFailure = (error: any) => ({
+    type: CHECKOUT_FAILURE,
     payload: { error },
 });

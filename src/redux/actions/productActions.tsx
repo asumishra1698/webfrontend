@@ -5,7 +5,6 @@ import {
   GET_PRODUCT_BY_ID_REQUEST,
   GET_PRODUCT_BY_ID_SUCCESS,
   GET_PRODUCT_BY_ID_FAILURE,
-
 } from "./actionsTypes";
 
 export const getProductsRequest = (page = 1, limit = 10, search = "") => ({
