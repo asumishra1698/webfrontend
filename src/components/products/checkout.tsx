@@ -32,7 +32,7 @@ const Checkout: React.FC = () => {
     });
 
     const subtotal = cart.reduce((sum: number, item: any) => sum + item.price * item.quantity, 0);
-    const tax = Math.round(subtotal * 0.05);
+    const tax = Math.round(subtotal * 0.18);
     const total = subtotal + tax;
 
     useEffect(() => {
@@ -64,6 +64,7 @@ const Checkout: React.FC = () => {
                 email: form.email,
                 address: form.address,
                 paymentMethod: "Online",
+                total,
             }),
         });
         const checkoutData = await checkoutRes.json();
