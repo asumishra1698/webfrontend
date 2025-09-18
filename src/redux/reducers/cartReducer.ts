@@ -14,6 +14,7 @@ const initialState = {
     loading: false,
     error: null,
     cart: [],
+    orderSuccess: false,
 };
 
 const cartReducer = (state = initialState, action: any) => {
@@ -33,11 +34,11 @@ const cartReducer = (state = initialState, action: any) => {
         case GET_CART_ITEMS_FAILURE:
             return { ...state, loading: false, error: action.payload.error };
         case CHECKOUT_REQUEST:
-            return { ...state, loading: true, error: null };
+            return { ...state, loading: true, error: null, orderSuccess: false };
         case CHECKOUT_SUCCESS:
-            return { ...state, loading: false, error: null, cart: [] };
+            return { ...state, loading: false, error: null, cart: [], orderSuccess: true };
         case CHECKOUT_FAILURE:
-            return { ...state, loading: false, error: action.payload.error };
+            return { ...state, loading: false, error: action.payload.error, orderSuccess: false };
         default:
             return state;
     }

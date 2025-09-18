@@ -9,6 +9,7 @@ import ProductGrid from "../components/products/productgrid";
 import CustomerDashboard from "../components/auth/CustomerDashboard";
 import ProductPage from "../components/products/ProductPage";
 import Checkout from "../components/products/checkout";
+import OrderDetails from "../components/products/orderDetails";
 
 const AppRoutes = () => (
   <Routes>
@@ -21,6 +22,7 @@ const AppRoutes = () => (
     <Route path="/blog/:slug" element={<BlogDetails />} />
     <Route path="/customer/dashboard" element={<CustomerDashboard />} />
     <Route path="/checkout" element={<Checkout />} />
+    <Route path="/order-details" element={<OrderDetails />} />
   </Routes>
 );
 
