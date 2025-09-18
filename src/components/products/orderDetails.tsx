@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { API_URL } from "../../config/webRoutes";
 
 interface OrderItem {
     productId: string;
@@ -38,7 +39,7 @@ const OrderDetails: React.FC = () => {
             setLoading(true);
             setError(null);
             try {
-                const res = await fetch(`http://localhost:5000/api/orders/${orderId}`);
+                const res = await fetch(`${API_URL}orders/${orderId}`);
                 const data = await res.json();
                 if (data.success && data.order) {
                     setOrder(data.order);

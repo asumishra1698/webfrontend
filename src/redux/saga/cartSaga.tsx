@@ -7,7 +7,10 @@ import {
     GET_CART_ITEMS_FAILURE,
     CHECKOUT_REQUEST,
     CHECKOUT_SUCCESS,
-    CHECKOUT_FAILURE
+    CHECKOUT_FAILURE,
+    GET_ORDER_BY_USERID_REQUEST,
+    GET_ORDER_BY_USERID_SUCCESS,
+    GET_ORDER_BY_USERID_FAILURE
 } from "../actions/actionsTypes";
 import { call, put, takeLatest } from "redux-saga/effects";
 import { getRequest, postRequest } from "../../config/apihelpers";
@@ -59,8 +62,23 @@ function* checkoutSaga(action: any): any {
     }
 }
 
+function* getOrderByUserIdSaga(action: any): any {
+    try {
+        const { userId } = action.payload || {};
+        const url = `${API_URL}orders?userId=${userId}`;
+        const response = yield call(getRequest, url);
+        yield put({ type: GET_ORDER_BY_USERID_SUCCESS, payload: { orders: response.orders } });
+    } catch (error: any) {
+        yield put({
+            type: GET_ORDER_BY_USERID_FAILURE,
+            payload: error?.message || "Failed to fetch orders",
+        });
+    }
+}
+
 export function* watchCartSaga() {
     yield takeLatest(ADD_TO_CART_REQUEST, addToCartSaga);
     yield takeLatest(GET_CART_ITEMS_REQUEST, getCartItemsSaga);
     yield takeLatest(CHECKOUT_REQUEST, checkoutSaga);
+    yield takeLatest(GET_ORDER_BY_USERID_REQUEST, getOrderByUserIdSaga);
 }

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUserProfileRequest } from "../redux/actions/authActions";
 import { useNavigate } from "react-router-dom";
 import CustomerLogin from "../components/auth/CustomerLogin";
+import { MEDIA_URL } from "../config/webRoutes";
 
 const Header: React.FC = () => {
   const dispatch = useDispatch();
@@ -72,7 +73,7 @@ const Header: React.FC = () => {
           >
             {user?.profilePic ? (
               <img
-                src={`http://localhost:5000/uploads/profile/${user.profilePic}`}
+                src={`${MEDIA_URL}profile/${user.profilePic}`}
                 alt={user.name}
                 className="w-8 h-8 rounded-full object-cover"
               />
@@ -107,7 +108,7 @@ const Header: React.FC = () => {
           >
             {user?.profilePic ? (
               <img
-                src={`http://localhost:5000/uploads/profile/${user.profilePic}`}
+                src={`${MEDIA_URL}profile/${user.profilePic}`}
                 alt={user.name}
                 className="w-8 h-8 rounded-full object-cover"
               />

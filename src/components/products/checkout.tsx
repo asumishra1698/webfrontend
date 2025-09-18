@@ -2,11 +2,19 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { checkoutRequest } from "../../redux/actions/cartActions";
+import { API_URL } from "../../config/webRoutes";
 
 const Checkout: React.FC = () => {
     const dispatch = useDispatch();
     const cart = useSelector((state: any) => state.cart?.cart || []);
     const user = useSelector((state: any) => state.auth.user);
+    console.log("user", user);
+    const defaultAddress = user?.addresses?.find((a: any) => a.isDefault) || user?.addresses?.[0] || {
+        line1: "",
+        city: "",
+        state: "",
+        zip: "",
+    };
     const orderSuccess = useSelector((state: any) => state.cart?.orderSuccess);
     const navigate = useNavigate();
 
@@ -15,10 +23,10 @@ const Checkout: React.FC = () => {
         number: user?.mobile || "",
         email: user?.email || "",
         address: {
-            line1: "",
-            city: "",
-            state: "",
-            zip: "",
+            line1: defaultAddress?.line1 || "",
+            city: defaultAddress?.city || "",
+            state: defaultAddress?.state || "",
+            zip: defaultAddress?.zip || "",
         },
         paymentMethod: "COD",
     });
@@ -42,9 +50,13 @@ const Checkout: React.FC = () => {
     };
 
     const handleRazorpayPayment = async () => {
-        const checkoutRes = await fetch("http://localhost:5000/api/orders/checkout", {
+        const token = localStorage.getItem("token");
+        const checkoutRes = await fetch(`${API_URL}orders/checkout`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                "Content-Type": "application/json",
+                ...(token && { Authorization: `Bearer ${token}` }),
+            },
             body: JSON.stringify({
                 userId: user?._id || user?.id,
                 name: form.name,
@@ -67,9 +79,13 @@ const Checkout: React.FC = () => {
             description: "Order Payment",
             order_id: checkoutData.razorpayOrderId,
             handler: async function (response: any) {
-                const verifyRes = await fetch("http://localhost:5000/api/orders/verify-payment", {
+                const token = localStorage.getItem("token");
+                const verifyRes = await fetch(`${API_URL}orders/verify-payment`, {
                     method: "POST",
-                    headers: { "Content-Type": "application/json" },
+                    headers: {
+                        "Content-Type": "application/json",
+                        ...(token && { Authorization: `Bearer ${token}` }),
+                    },
                     body: JSON.stringify({
                         razorpay_payment_id: response.razorpay_payment_id,
                         razorpay_order_id: response.razorpay_order_id,

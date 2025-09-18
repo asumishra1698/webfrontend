@@ -7,7 +7,10 @@ import {
     GET_CART_ITEMS_FAILURE,
     CHECKOUT_REQUEST,
     CHECKOUT_SUCCESS,
-    CHECKOUT_FAILURE
+    CHECKOUT_FAILURE,
+    GET_ORDER_BY_USERID_REQUEST,
+    GET_ORDER_BY_USERID_SUCCESS,
+    GET_ORDER_BY_USERID_FAILURE
 } from "./actionsTypes";
 
 
@@ -47,5 +50,18 @@ export const checkoutSuccess = (order: any) => ({
 });
 export const checkoutFailure = (error: any) => ({
     type: CHECKOUT_FAILURE,
+    payload: { error },
+});
+
+export const getOrderByUserIdRequest = (userId: string) => ({
+    type: GET_ORDER_BY_USERID_REQUEST,
+    payload: { userId },
+});
+export const getOrderByUserIdSuccess = (orders: any) => ({
+    type: GET_ORDER_BY_USERID_SUCCESS,
+    payload: { orders },
+});
+export const getOrderByUserIdFailure = (error: any) => ({
+    type: GET_ORDER_BY_USERID_FAILURE,
     payload: { error },
 });
