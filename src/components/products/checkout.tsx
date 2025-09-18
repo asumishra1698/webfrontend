@@ -6,13 +6,15 @@ const Checkout: React.FC = () => {
     const dispatch = useDispatch();
     const cart = useSelector((state: any) => state.cart?.cart || []);
     const user = useSelector((state: any) => state.auth.user);
+    console.log("User in Checkout:", user);
 
 
     const [form, setForm] = useState({
-        name: user?.name || "",      
-        number: user?.number || "",
+        name: user?.name || "",
+        number: user?.mobile || "",
+        email: user?.email || "",
         address: "",
-        paymentMethod: "COD",
+        paymentMethod: "",
     });
 
     const subtotal = cart.reduce((sum: number, item: any) => sum + item.price * item.quantity, 0);
@@ -23,21 +25,48 @@ const Checkout: React.FC = () => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
+    const handleRazorpayPayment = () => {
+        const options = {
+            key: "rzp_test_RIcIcCI1mh5XBa",
+            amount: total * 100,
+            currency: "INR",
+            name: form.name,
+            description: "Order Payment",
+            handler: function (response: any) {
+                alert("Payment successful! Payment ID: " + response.razorpay_payment_id);
+            },
+            prefill: {
+                name: form.name,
+                email: form.email,
+                contact: form.number,
+            },
+            theme: {
+                color: "#3399cc",
+            },
+        };
+        const rzp = new (window as any).Razorpay(options);
+        rzp.open();
+    };
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         const payload = {
             userId: user?._id || user?.id,
             name: form.name,
             number: form.number,
+            email: form.email,
             address: form.address,
             paymentMethod: form.paymentMethod,
         };
-        dispatch(checkoutRequest(payload));
+        if (form.paymentMethod === "Online") {
+            handleRazorpayPayment();
+        } else {
+            dispatch(checkoutRequest(payload));
+        }
     };
 
     return (
-        <div className="max-w-5xl mx-auto my-10 grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Left: Shipping Info */}
+        <div className="max-w-5xl mx-auto my-10 grid grid-cols-1 md:grid-cols-2 gap-8">           
             <form onSubmit={handleSubmit} className="bg-white p-8 rounded shadow space-y-6">
                 <h2 className="text-2xl font-bold mb-4">Shipping Information</h2>
                 <div>
@@ -50,7 +79,7 @@ const Checkout: React.FC = () => {
                         className="w-full border px-3 py-2 rounded"
                         required
                     />
-                </div>               
+                </div>
                 <div>
                     <label className="block mb-1 font-medium">Mobile Number</label>
                     <input
@@ -61,6 +90,17 @@ const Checkout: React.FC = () => {
                         className="w-full border px-3 py-2 rounded"
                         required
                         pattern="[0-9]{10}"
+                    />
+                </div>
+                <div>
+                    <label className="block mb-1 font-medium">Email</label>
+                    <input
+                        type="email"
+                        name="email"
+                        value={form.email}
+                        onChange={handleChange}
+                        className="w-full border px-3 py-2 rounded"
+                        required
                     />
                 </div>
                 <div>
