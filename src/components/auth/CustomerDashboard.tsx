@@ -20,25 +20,19 @@ const CustomerDashboard: React.FC = () => {
         localStorage.removeItem("id");
         navigate("/");
     };
+    interface Address {
+        _id?: string;
+        id?: string;
+        line1: string;
+        city: string;
+        state: string;
+        zip: string;
+        country?: string;
+        label?: string;
+        isDefault?: boolean;
+    }
 
-    const addresses = [
-        {
-            id: 1,
-            line1: "123 Main St",
-            city: "New Delhi",
-            state: "Delhi",
-            zip: "110001",
-            country: "India",
-        },
-        {
-            id: 2,
-            line1: "456 Park Ave",
-            city: "Mumbai",
-            state: "Maharashtra",
-            zip: "400001",
-            country: "India",
-        },
-    ];
+    const addresses = user?.addresses || [];
 
     const orders = [
         {
@@ -114,7 +108,7 @@ const CustomerDashboard: React.FC = () => {
                             <div className="text-gray-500">No addresses found.</div>
                         ) : (
                             <ul className="space-y-3">
-                                {addresses.map(addr => (
+                                {addresses.map((addr: Address) => (
                                     <li key={addr.id} className="bg-blue-50 rounded p-3 shadow-sm">
                                         <div className="font-medium">{addr.line1}</div>
                                         <div className="text-sm text-gray-600">

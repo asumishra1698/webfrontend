@@ -14,7 +14,12 @@ const Checkout: React.FC = () => {
         name: user?.name || "",
         number: user?.mobile || "",
         email: user?.email || "",
-        address: "",
+        address: {
+            line1: "",
+            city: "",
+            state: "",
+            zip: "",
+        },
         paymentMethod: "COD",
     });
 
@@ -30,6 +35,10 @@ const Checkout: React.FC = () => {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         setForm({ ...form, [e.target.name]: e.target.value });
+    };
+
+    const handlePaymentMethodChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setForm({ ...form, paymentMethod: e.target.value });
     };
 
     const handleRazorpayPayment = async () => {
@@ -126,100 +135,173 @@ const Checkout: React.FC = () => {
     };
 
     return (
-        <div className="max-w-5xl mx-auto my-10 grid grid-cols-1 md:grid-cols-2 gap-8">
-            <form onSubmit={handleSubmit} className="bg-white p-8 rounded shadow space-y-6">
-                <h2 className="text-2xl font-bold mb-4">Shipping Information</h2>
-                {/* ...form fields as before... */}
-                <div>
-                    <label className="block mb-1 font-medium">Name</label>
-                    <input
-                        type="text"
-                        name="name"
-                        value={form.name}
-                        onChange={handleChange}
-                        className="w-full border px-3 py-2 rounded"
-                        required
-                    />
-                </div>
-                <div>
-                    <label className="block mb-1 font-medium">Mobile Number</label>
-                    <input
-                        type="tel"
-                        name="number"
-                        value={form.number}
-                        onChange={handleChange}
-                        className="w-full border px-3 py-2 rounded"
-                        required
-                        pattern="[0-9]{10}"
-                    />
-                </div>
-                <div>
-                    <label className="block mb-1 font-medium">Email</label>
-                    <input
-                        type="email"
-                        name="email"
-                        value={form.email}
-                        onChange={handleChange}
-                        className="w-full border px-3 py-2 rounded"
-                        required
-                    />
-                </div>
-                <div>
-                    <label className="block mb-1 font-medium">Address</label>
-                    <textarea
-                        name="address"
-                        value={form.address}
-                        onChange={handleChange}
-                        className="w-full border px-3 py-2 rounded"
-                        required
-                    />
-                </div>
-                <div>
-                    <label className="block mb-1 font-medium">Payment Method</label>
-                    <select
-                        name="paymentMethod"
-                        value={form.paymentMethod}
-                        onChange={handleChange}
-                        className="w-full border px-3 py-2 rounded"
-                    >
-                        <option value="COD">Cash on Delivery</option>
-                        <option value="Online">Online</option>
-                    </select>
-                </div>
-                <button
-                    type="submit"
-                    className="w-full bg-blue-600 text-white py-2 rounded font-semibold hover:bg-blue-700"
-                >
-                    Place Order
-                </button>
-            </form>
-
-            {/* Right: Order Summary */}
-            <div className="bg-white p-8 rounded shadow">
-                <h2 className="text-2xl font-bold mb-4">Order Summary</h2>
-                <div className="space-y-4">
-                    {cart.map((item: any) => (
-                        <div key={item._id || item.id} className="flex justify-between items-center border-b pb-2">
-                            <div>
-                                <div className="font-semibold">{item.name}</div>
-                                <div className="text-sm text-gray-600">Qty: {item.quantity}</div>
-                            </div>
-                            <div className="font-bold text-green-700">₹{item.price * item.quantity}</div>
+        <div className="min-h-screen bg-gray-50 py-4">
+            {/* Logo */}
+            <div className="flex justify-center mb-4">
+                <img
+                    src="/logo192.png"
+                    alt="Logo"
+                    className="h-14 w-14 rounded-full shadow-lg"
+                />
+            </div>
+            <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+                {/* Checkout Form */}
+                <form onSubmit={handleSubmit} className="bg-white p-8 rounded-xl shadow space-y-6">
+                    <h2 className="text-2xl font-bold mb-4 text-blue-700">Shipping Information</h2>
+                    <div>
+                        <label className="block mb-1 font-medium">Name</label>
+                        <input
+                            type="text"
+                            name="name"
+                            value={form.name}
+                            onChange={handleChange}
+                            className="w-full border px-3 py-2 rounded focus:outline-blue-400"
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label className="block mb-1 font-medium">Mobile Number</label>
+                        <input
+                            type="tel"
+                            name="number"
+                            value={form.number}
+                            onChange={handleChange}
+                            className="w-full border px-3 py-2 rounded focus:outline-blue-400"
+                            required
+                            pattern="[0-9]{10}"
+                        />
+                    </div>
+                    <div>
+                        <label className="block mb-1 font-medium">Email</label>
+                        <input
+                            type="email"
+                            name="email"
+                            value={form.email}
+                            onChange={handleChange}
+                            className="w-full border px-3 py-2 rounded focus:outline-blue-400"
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label className="block mb-1 font-medium">Address Line</label>
+                        <input
+                            type="text"
+                            name="line1"
+                            value={form.address.line1}
+                            onChange={e => setForm({ ...form, address: { ...form.address, line1: e.target.value } })}
+                            className="w-full border px-3 py-2 rounded focus:outline-blue-400"
+                            required
+                        />
+                    </div>
+                    <div className="grid grid-cols-3 gap-2">
+                        <div>
+                            <label className="block mb-1 font-medium">City</label>
+                            <input
+                                type="text"
+                                name="city"
+                                value={form.address.city}
+                                onChange={e => setForm({ ...form, address: { ...form.address, city: e.target.value } })}
+                                className="w-full border px-3 py-2 rounded focus:outline-blue-400"
+                                required
+                            />
                         </div>
-                    ))}
-                </div>
-                <div className="mt-6 border-t pt-4 space-y-2">
-                    <div className="flex justify-between">
-                        <span>Subtotal</span>
-                        <span>₹{subtotal}</span>
+                        <div>
+                            <label className="block mb-1 font-medium">State</label>
+                            <input
+                                type="text"
+                                name="state"
+                                value={form.address.state}
+                                onChange={e => setForm({ ...form, address: { ...form.address, state: e.target.value } })}
+                                className="w-full border px-3 py-2 rounded focus:outline-blue-400"
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label className="block mb-1 font-medium">ZIP</label>
+                            <input
+                                type="text"
+                                name="zip"
+                                value={form.address.zip}
+                                onChange={e => setForm({ ...form, address: { ...form.address, zip: e.target.value } })}
+                                className="w-full border px-3 py-2 rounded focus:outline-blue-400"
+                                required
+                            />
+                        </div>
                     </div>
-                    <div className="flex justify-between">
-                        <span>Tax (5%)</span>
-                        <span>₹{tax}</span>
+                    <div>
+                        <label className="block mb-1 font-medium">Payment Method</label>
+                        <div className="flex items-center gap-6 mt-2">
+                            <label className="flex items-center cursor-pointer">
+                                <input
+                                    type="radio"
+                                    name="paymentMethod"
+                                    value="COD"
+                                    checked={form.paymentMethod === "COD"}
+                                    onChange={handlePaymentMethodChange}
+                                    className="accent-blue-600"
+                                />
+                                <span className="ml-2">Cash on Delivery</span>
+                            </label>
+                            <label className="flex items-center cursor-pointer">
+                                <input
+                                    type="radio"
+                                    name="paymentMethod"
+                                    value="Online"
+                                    checked={form.paymentMethod === "Online"}
+                                    onChange={handlePaymentMethodChange}
+                                    className="accent-blue-600"
+                                />
+                                <span className="ml-2">Online Payment</span>
+                            </label>
+                        </div>
                     </div>
-                    <div className="flex justify-between font-bold text-lg">
-                        <span>Total</span>
-                        <span>₹{total}</span>
+                    <button
+                        type="submit"
+                        className="w-full bg-blue-600 text-white py-2 rounded font-semibold hover:bg-blue-700 transition"
+                    >
+                        Place Order
+                    </button>
+                </form>
+
+                {/* Order Summary */}
+                <div className="bg-white p-8 rounded-xl shadow">
+                    <h2 className="text-2xl font-bold mb-4 text-blue-700">Order Summary</h2>
+                    <div className="space-y-4">
+                        {cart.map((item: any) => (
+                            <div
+                                key={item._id || item.id}
+                                className="flex items-center justify-between border-b pb-3"
+                            >
+                                <div className="flex items-center gap-3">
+                                    <img
+                                        src={item.image || "/placeholder.png"}
+                                        alt={item.name}
+                                        className="w-14 h-14 object-cover rounded border"
+                                    />
+                                    <div>
+                                        <div className="font-semibold">{item.name}</div>
+                                        <div className="text-sm text-gray-600">Qty: {item.quantity}</div>
+                                    </div>
+                                </div>
+                                <div className="font-bold text-green-700">
+                                    ₹{item.price * item.quantity}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                    <div className="mt-6 border-t pt-4 space-y-2">
+                        <div className="flex justify-between">
+                            <span>Subtotal</span>
+                            <span>₹{subtotal}</span>
+                        </div>
+                        <div className="flex justify-between">
+                            <span>Tax (5%)</span>
+                            <span>₹{tax}</span>
+                        </div>
+                        <div className="flex justify-between font-bold text-lg">
+                            <span>Total</span>
+                            <span>₹{total}</span>
+                        </div>
                     </div>
                 </div>
             </div>
