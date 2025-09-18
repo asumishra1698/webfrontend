@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { MEDIA_URL } from "../../config/webRoutes";
+import { useNavigate } from "react-router-dom";
 import { getCartItemsRequest } from "../../redux/actions/cartActions";
 
 interface CartSidebarProps {
@@ -10,6 +10,7 @@ interface CartSidebarProps {
 
 const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const cart = useSelector((state: any) => state.cart?.cart || []);
     const loading = useSelector((state: any) => state.cart?.loading);
     const userId = useSelector((state: any) => state.auth.user?._id || state.auth.user?.id);
@@ -25,6 +26,13 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => {
 
     const handleRemove = (id: string) => {
         dispatch({ type: "REMOVE_FROM_CART", payload: id });
+    };
+
+    const handleCheckout = () => {
+        if (cart.length > 0) {
+            onClose();
+            navigate("/checkout");
+        }
     };
 
     return (
@@ -55,7 +63,7 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => {
                             cart.map((item: any) => (
                                 <div key={item._id || item.id} className="flex items-center mb-4 border-b pb-2">
                                     <img
-                                        src={`${MEDIA_URL}products/${item.thumbnail}`}
+                                        src={item.imageUrl}
                                         alt={item.name}
                                         className="w-16 h-16 object-cover rounded mr-3"
                                     />
@@ -85,6 +93,7 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => {
                         <button
                             className="w-full bg-gradient-to-r from-gray-600 to-gray-500 hover:from-gray-700 hover:to-gray-600 text-white font-semibold py-3 px-8 rounded-lg shadow-md transition-all duration-200"
                             disabled={cart.length === 0}
+                            onClick={handleCheckout}
                         >
                             Checkout
                         </button>
