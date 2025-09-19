@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { checkoutRequest } from "../../redux/actions/cartActions";
 import { API_URL } from "../../config/webRoutes";
+import { IoArrowBack } from "react-icons/io5"; 
 
 const Checkout: React.FC = () => {
     const dispatch = useDispatch();
@@ -152,17 +153,19 @@ const Checkout: React.FC = () => {
 
     return (
         <div className="min-h-screen bg-gray-50 py-4">
-            {/* Logo */}
-            <div className="flex justify-center mb-4">
-                <img
-                    src="/logo192.png"
-                    alt="Logo"
-                    className="h-14 w-14 rounded-full shadow-lg"
-                />
-            </div>
+            <div className="max-w-5xl mx-auto flex items-center mb-4 px-2">
+    <button
+        type="button"
+        onClick={() => navigate(-1)}
+        className="flex items-center text-blue-700 hover:text-blue-900 font-medium text-lg"
+    >
+        <IoArrowBack className="mr-2 text-2xl" />
+        Back
+    </button>
+</div>
             <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
                 {/* Checkout Form */}
-                <form onSubmit={handleSubmit} className="bg-white p-8 rounded-xl shadow space-y-6">
+                <form onSubmit={handleSubmit} className="bg-white p-4 sm:p-8 rounded-xl shadow space-y-6">
                     <h2 className="text-2xl font-bold mb-4 text-blue-700">Shipping Information</h2>
                     <div>
                         <label className="block mb-1 font-medium">Name</label>
@@ -245,20 +248,11 @@ const Checkout: React.FC = () => {
                         </div>
                     </div>
                     <div>
-                        <label className="block mb-1 font-medium">Payment Method</label>
-                        <div className="flex items-center gap-6 mt-2">
-                            <label className="flex items-center cursor-pointer">
-                                <input
-                                    type="radio"
-                                    name="paymentMethod"
-                                    value="COD"
-                                    checked={form.paymentMethod === "COD"}
-                                    onChange={handlePaymentMethodChange}
-                                    className="accent-blue-600"
-                                />
-                                <span className="ml-2">Cash on Delivery</span>
-                            </label>
-                            <label className="flex items-center cursor-pointer">
+                        <label className="block mb-1 font-medium text-lg">Payment</label>
+                        <p className="text-xs text-gray-500 mb-2">All transactions are secure and encrypted.</p>
+                        <div className="bg-white border rounded-xl overflow-hidden">
+                            {/* Online Payment Option */}
+                            <label className="flex items-center px-4 py-3 cursor-pointer border-b hover:bg-gray-50 transition">
                                 <input
                                     type="radio"
                                     name="paymentMethod"
@@ -267,13 +261,43 @@ const Checkout: React.FC = () => {
                                     onChange={handlePaymentMethodChange}
                                     className="accent-blue-600"
                                 />
-                                <span className="ml-2">Online Payment</span>
+                                <span className="ml-3 font-medium">Razorpay Secure (UPI, Cards, Wallets, NetBanking)</span>
+                                <span className="flex items-center gap-1 ml-auto">
+                                    {/* Payment icons */}
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/UPI-Logo-vector.svg/695px-UPI-Logo-vector.svg.png?20200901100648" alt="UPI" className="h-5" />
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Visa.svg" alt="Visa" className="h-5" />
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" className="h-5" />
+                                    <span className="bg-gray-200 text-xs px-2 py-0.5 rounded ml-1">+17</span>
+                                </span>
                             </label>
+                            {form.paymentMethod === "Online" && (
+                                <div className="bg-gray-50 border-t px-4 py-3 text-gray-700 text-sm">
+                                    After clicking “Place Order”, you will be redirected to Razorpay Secure (UPI, Cards, Wallets, NetBanking) to complete your purchase securely.
+                                </div>
+                            )}
+                            {/* COD Option */}
+                            <label className="flex items-center px-4 py-3 cursor-pointer hover:bg-gray-50 transition">
+                                <input
+                                    type="radio"
+                                    name="paymentMethod"
+                                    value="COD"
+                                    checked={form.paymentMethod === "COD"}
+                                    onChange={handlePaymentMethodChange}
+                                    className="accent-blue-600"
+                                />
+                                <span className="ml-3 font-medium">Cash on Delivery (COD)</span>
+                            </label>
+                            {/* COD Info Box */}
+                            {form.paymentMethod === "COD" && (
+                                <div className="bg-gray-50 border-t px-4 py-3 text-gray-700 text-sm">
+                                    Cash on delivery is available all over India up to order amount <span className="font-semibold">₹2,000</span>.
+                                </div>
+                            )}
                         </div>
                     </div>
                     <button
                         type="submit"
-                        className="w-full bg-blue-600 text-white py-2 rounded font-semibold hover:bg-blue-700 transition"
+                        className="w-full bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 text-white py-2 rounded font-semibold hover:bg-blue-700 transition"
                     >
                         Place Order
                     </button>
@@ -290,8 +314,8 @@ const Checkout: React.FC = () => {
                             >
                                 <div className="flex items-center gap-3">
                                     <img
-                                        src={item.image || "/placeholder.png"}
-                                        alt={item.name}
+                                        src={item.imageUrl || "/placeholder.png"}
+                                        alt={item.imageUrl}
                                         className="w-14 h-14 object-cover rounded border"
                                     />
                                     <div>
@@ -311,7 +335,7 @@ const Checkout: React.FC = () => {
                             <span>₹{subtotal}</span>
                         </div>
                         <div className="flex justify-between">
-                            <span>Tax (5%)</span>
+                            <span>GST (18%)</span>
                             <span>₹{tax}</span>
                         </div>
                         <div className="flex justify-between font-bold text-lg">
