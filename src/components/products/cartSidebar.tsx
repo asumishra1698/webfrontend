@@ -24,8 +24,8 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => {
     const getTotal = () =>
         cart.reduce((sum: number, item: any) => sum + item.price * item.quantity, 0);
 
-    const handleRemove = (userId: string, id: string) => {
-        dispatch(removeCartItemRequest(userId, id));
+    const handleRemove = (userId: string, productId: string) => {
+        dispatch(removeCartItemRequest(userId, productId));
     };
 
     const handleCheckout = () => {
@@ -73,7 +73,7 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => {
                                         <div className="text-sm text-green-700 font-bold">₹{item.price}</div>
                                     </div>
                                     <button
-                                        onClick={() => handleRemove(userId, item._id || item.id)}
+                                        onClick={() => handleRemove(userId, item.productId)}
                                         className="text-red-500 hover:text-red-700 ml-2"
                                         title="Remove"
                                         aria-label={`Remove ${item.name} from cart`}
