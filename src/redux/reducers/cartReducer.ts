@@ -5,6 +5,9 @@ import {
     GET_CART_ITEMS_REQUEST,
     GET_CART_ITEMS_SUCCESS,
     GET_CART_ITEMS_FAILURE,
+    REMOVE_CART_ITEM_REQUEST,
+    REMOVE_CART_ITEM_SUCCESS,
+    REMOVE_CART_ITEM_FAILURE,
     CHECKOUT_REQUEST,
     CHECKOUT_SUCCESS,
     CHECKOUT_FAILURE,
@@ -36,17 +39,26 @@ const cartReducer = (state = initialState, action: any) => {
         case ADD_TO_CART_FAILURE:
         case GET_CART_ITEMS_FAILURE:
             return { ...state, loading: false, error: action.payload.error };
+
         case CHECKOUT_REQUEST:
             return { ...state, loading: true, error: null, orderSuccess: false };
         case CHECKOUT_SUCCESS:
             return { ...state, loading: false, error: null, cart: [], orderSuccess: true };
         case CHECKOUT_FAILURE:
             return { ...state, loading: false, error: action.payload.error, orderSuccess: false };
+
         case GET_ORDER_BY_USERID_REQUEST:
             return { ...state, loading: true, error: null };
         case GET_ORDER_BY_USERID_SUCCESS:
             return { ...state, loading: false, error: null, orders: action.payload.orders };
         case GET_ORDER_BY_USERID_FAILURE:
+            return { ...state, loading: false, error: action.payload.error };
+
+        case REMOVE_CART_ITEM_REQUEST:
+            return { ...state, loading: true, error: null };
+        case REMOVE_CART_ITEM_SUCCESS:
+            return { ...state, loading: false, error: null, cart: action.payload.cart };
+        case REMOVE_CART_ITEM_FAILURE:
             return { ...state, loading: false, error: action.payload.error };
         default:
             return state;

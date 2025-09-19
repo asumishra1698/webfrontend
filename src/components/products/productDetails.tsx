@@ -99,7 +99,10 @@ const ProductDetails: React.FC<{ onAddToCart?: () => void }> = ({ onAddToCart })
                             <strong>Return Policy:</strong> {product.returnPolicy}
                         </div>
                         <div className="mb-2">
-                            <strong>Dimensions:</strong> {product.dimensions.length} x {product.dimensions.width} x {product.dimensions.height} cm
+                            <strong>Dimensions:</strong>{" "}
+                            {product.dimensions && product.dimensions.length && product.dimensions.width && product.dimensions.height
+                                ? `${product.dimensions.length} x ${product.dimensions.width} x ${product.dimensions.height} cm`
+                                : "N/A"}
                         </div>
                         <div className="mb-2">
                             <strong>Weight:</strong> {product.weight}g
@@ -136,7 +139,10 @@ const ProductDetails: React.FC<{ onAddToCart?: () => void }> = ({ onAddToCart })
                     </div>
                 </div>
                 <div className="md:w-full mt-6">
-                    <div className="mb-2 text-gray-700">{product.description}</div>
+                    <div
+                        className="mb-2 text-gray-700"
+                        dangerouslySetInnerHTML={{ __html: product.description }}
+                    />
                 </div>
             </div>
         </Layout>

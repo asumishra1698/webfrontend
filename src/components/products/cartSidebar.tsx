@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getCartItemsRequest } from "../../redux/actions/cartActions";
+import { getCartItemsRequest, removeCartItemRequest } from "../../redux/actions/cartActions";
 
 interface CartSidebarProps {
     isOpen: boolean;
@@ -24,8 +24,8 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => {
     const getTotal = () =>
         cart.reduce((sum: number, item: any) => sum + item.price * item.quantity, 0);
 
-    const handleRemove = (id: string) => {
-        dispatch({ type: "REMOVE_FROM_CART", payload: id });
+    const handleRemove = (userId: string, id: string) => {
+        dispatch(removeCartItemRequest(userId, id));
     };
 
     const handleCheckout = () => {
@@ -73,7 +73,7 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => {
                                         <div className="text-sm text-green-700 font-bold">₹{item.price}</div>
                                     </div>
                                     <button
-                                        onClick={() => handleRemove(item._id || item.id)}
+                                        onClick={() => handleRemove(userId, item._id || item.id)}
                                         className="text-red-500 hover:text-red-700 ml-2"
                                         title="Remove"
                                         aria-label={`Remove ${item.name} from cart`}

@@ -16,7 +16,7 @@ import { useDocumentMeta } from "../../reuseable/useDocumentMeta";
 
 const banners = [
   {
-    title: "Explore integrated LMS and HRM solution11",
+    title: "Explore integrated LMS and HRM solution",
     subtitle:
       "Evaluate unified solutions for Lead Management (LMS) and Human Resource Management (HRM). Schedule your free LMS demo today!",
     img: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80",
@@ -25,7 +25,7 @@ const banners = [
   },
 
   {
-    title: "Explore integrated LMS and HRM solution22",
+    title: "Explore integrated LMS and HRM solution",
     subtitle:
       "Evaluate unified solutions for Lead Management (LMS) and Human Resource Management (HRM). Schedule your free LMS demo today!",
     img: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80",
@@ -314,11 +314,11 @@ export default function Home() {
                 ABOUT COMPANY
               </span>
               <h2 className="text-3xl md:text-4xl font-extrabold mb-6 text-gray-900 leading-tight">
-                More than <span className="text-blue-700">5+ years</span> we
+                More than <span className="text-blue-700">15+ years</span> we
                 provide IT solutions &amp; Software Innovation
               </h2>
               <p className="text-lg text-gray-600 mb-10">
-                Since 2020, gonardweb has been a dedicated provider of
+                Since 2018, gonardweb has been a dedicated provider of
                 customized solutions for various industries, with a strong
                 emphasis on real estate. We stand out by offering both custom
                 and platform-based solutions, ensuring your specific needs are

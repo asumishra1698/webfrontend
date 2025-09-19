@@ -5,6 +5,9 @@ import {
     GET_CART_ITEMS_REQUEST,
     GET_CART_ITEMS_SUCCESS,
     GET_CART_ITEMS_FAILURE,
+    REMOVE_CART_ITEM_REQUEST,
+    REMOVE_CART_ITEM_SUCCESS,
+    REMOVE_CART_ITEM_FAILURE,   
     CHECKOUT_REQUEST,
     CHECKOUT_SUCCESS,
     CHECKOUT_FAILURE,
@@ -39,6 +42,20 @@ export const getCartItemsFailure = (error: any) => ({
     type: GET_CART_ITEMS_FAILURE,
     payload: { error },
 });
+
+export const removeCartItemRequest = (userId: string, productId: string) => ({
+    type: REMOVE_CART_ITEM_REQUEST,
+    payload: { userId, productId },
+});
+export const removeCartItemSuccess = (cart: any) => ({
+    type: REMOVE_CART_ITEM_SUCCESS,
+    payload: { cart },
+});
+export const removeCartItemFailure = (error: any) => ({
+    type: REMOVE_CART_ITEM_FAILURE,
+    payload: { error },
+});
+
 
 export const checkoutRequest = (payload: any) => ({
     type: CHECKOUT_REQUEST,

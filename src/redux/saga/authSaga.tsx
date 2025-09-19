@@ -9,6 +9,7 @@ import {
 } from "../actions/actionsTypes";
 import { getRequest, postRequest } from "../../config/apihelpers";
 import { API_URL, API_ENDPOINTS } from "../../config/webRoutes";
+import { toast } from "react-toastify";
 
 function* loginSaga(action: any): any {
     try {
@@ -20,11 +21,13 @@ function* loginSaga(action: any): any {
         yield put({ type: LOGIN_SUCCESS, payload: response });
         localStorage.setItem("token", response.user.token);
         localStorage.setItem("id", response.user.id);
+        toast.success(response.message || "Login successful!");
     } catch (error: any) {
         yield put({
             type: LOGIN_FAILURE,
             payload: error.message || "Login failed",
         });
+        toast.error(error.message || "Login failed");
     }
 }
 

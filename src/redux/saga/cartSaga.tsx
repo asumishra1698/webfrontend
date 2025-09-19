@@ -5,6 +5,9 @@ import {
     GET_CART_ITEMS_REQUEST,
     GET_CART_ITEMS_SUCCESS,
     GET_CART_ITEMS_FAILURE,
+    REMOVE_CART_ITEM_REQUEST,
+    REMOVE_CART_ITEM_SUCCESS,
+    REMOVE_CART_ITEM_FAILURE,
     CHECKOUT_REQUEST,
     CHECKOUT_SUCCESS,
     CHECKOUT_FAILURE,
@@ -47,6 +50,22 @@ function* getCartItemsSaga(action: any): any {
     }
 }
 
+function* removeCartItemSaga(action: any): any {
+    try {
+        const { userId, productId } = action.payload || {};
+        const url = `${API_URL}cart/remove`;
+        const response = yield call(postRequest, url, { userId, productId });
+        const cartData = response.data ? response.data : response;
+        yield put({ type: REMOVE_CART_ITEM_SUCCESS, payload: cartData });
+        yield put({ type: GET_CART_ITEMS_REQUEST, payload: { userId } });
+    } catch (error: any) {
+        yield put({
+            type: REMOVE_CART_ITEM_FAILURE,
+            payload: error?.message || "Failed to remove from cart",
+        });
+    }
+}
+
 function* checkoutSaga(action: any): any {
     try {
         const payload = action.payload;
@@ -79,6 +98,7 @@ function* getOrderByUserIdSaga(action: any): any {
 export function* watchCartSaga() {
     yield takeLatest(ADD_TO_CART_REQUEST, addToCartSaga);
     yield takeLatest(GET_CART_ITEMS_REQUEST, getCartItemsSaga);
+    yield takeLatest(REMOVE_CART_ITEM_REQUEST, removeCartItemSaga);
     yield takeLatest(CHECKOUT_REQUEST, checkoutSaga);
     yield takeLatest(GET_ORDER_BY_USERID_REQUEST, getOrderByUserIdSaga);
 }
