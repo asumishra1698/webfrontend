@@ -8,7 +8,6 @@ const Checkout: React.FC = () => {
     const dispatch = useDispatch();
     const cart = useSelector((state: any) => state.cart?.cart || []);
     const user = useSelector((state: any) => state.auth.user);
-    console.log("user", user);
     const defaultAddress = user?.addresses?.find((a: any) => a.isDefault) || user?.addresses?.[0] || {
         line1: "",
         city: "",
@@ -36,8 +35,8 @@ const Checkout: React.FC = () => {
     const total = subtotal + tax;
 
     useEffect(() => {
-        if (orderSuccess) {
-            navigate("/order-details");
+        if (orderSuccess && orderSuccess._id) {
+            navigate(`/order-details/${orderSuccess._id}`);
         }
     }, [orderSuccess, navigate]);
 
@@ -107,8 +106,8 @@ const Checkout: React.FC = () => {
                     }),
                 });
                 const verifyData = await verifyRes.json();
-                if (verifyData.success) {
-                    navigate("/order-details");
+                if (verifyData.success && verifyData.order && verifyData.order._id) {
+                    navigate(`/order-details/${verifyData.order._id}`);
                 } else {
                     alert("Payment verification failed!");
                 }

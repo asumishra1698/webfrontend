@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getCartItemsRequest, removeCartItemRequest } from "../../redux/actions/cartActions";
+import { getCartItemsRequest, removeCartItemRequest, updateCartQuantityRequest } from "../../redux/actions/cartActions";
 
 interface CartSidebarProps {
     isOpen: boolean;
@@ -26,6 +26,11 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => {
 
     const handleRemove = (userId: string, productId: string) => {
         dispatch(removeCartItemRequest(userId, productId));
+    };
+
+    const handleQuantityChange = (userId: string, productId: string, quantity: number) => {
+        if (quantity < 1) return;
+        dispatch(updateCartQuantityRequest(userId, productId, quantity));
     };
 
     const handleCheckout = () => {
@@ -69,7 +74,20 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => {
                                     />
                                     <div className="flex-1">
                                         <div className="font-semibold">{item.name}</div>
-                                        <div className="text-sm text-gray-600">Qty: {item.quantity}</div>
+                                        <div className="flex items-center gap-2 mt-1">
+                                            <button
+                                                className="w-6 h-6 flex items-center justify-center bg-gray-200 rounded text-lg font-bold hover:bg-gray-300"
+                                                onClick={() => handleQuantityChange(userId, item.productId, item.quantity - 1)}
+                                                aria-label="Decrease quantity"
+                                                disabled={item.quantity <= 1}
+                                            >-</button>
+                                            <span className="w-8 text-center">{item.quantity}</span>
+                                            <button
+                                                className="w-6 h-6 flex items-center justify-center bg-gray-200 rounded text-lg font-bold hover:bg-gray-300"
+                                                onClick={() => handleQuantityChange(userId, item.productId, item.quantity + 1)}
+                                                aria-label="Increase quantity"
+                                            >+</button>
+                                        </div>
                                         <div className="text-sm text-green-700 font-bold">₹{item.price}</div>
                                     </div>
                                     <button

@@ -4,10 +4,15 @@ import { getUserProfileRequest } from "../redux/actions/authActions";
 import { useNavigate } from "react-router-dom";
 import CustomerLogin from "../components/auth/CustomerLogin";
 import { MEDIA_URL } from "../config/webRoutes";
+import CartSidebar from "../components/products/cartSidebar";
+import { FaShoppingCart } from "react-icons/fa"; // Add this import at the top
+
+
 
 const Header: React.FC = () => {
   const dispatch = useDispatch();
   const user = useSelector((state: any) => state.auth.user);
+  const cart = useSelector((state: any) => state.cart?.cart || []);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -16,6 +21,7 @@ const Header: React.FC = () => {
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
+  const [cartOpen, setCartOpen] = useState(false);
 
   const navLinks = [
     { href: "/", label: "Home" },
@@ -66,6 +72,19 @@ const Header: React.FC = () => {
             <span className="text-sm">{contactInfo.question}</span>
             <span className="text-blue-900 font-bold">{contactInfo.numbers}</span>
           </div>
+          {/* Cart Icon */}
+          <button
+            className="relative ml-4 p-2 rounded-full hover:bg-gray-100 transition"
+            aria-label="Cart"
+            onClick={() => setCartOpen(true)}
+          >
+            <FaShoppingCart className="w-7 h-7 text-gray-700" />        
+            {cart.length > 0 && (
+              <span className="absolute top-1 right-1 bg-red-600 text-white text-xs rounded-full px-1.5 py-0.5">
+                {cart.length}
+              </span>
+            )}
+          </button>
           <button
             className="ml-4 p-2 rounded-full hover:bg-gray-100 transition"
             aria-label="Profile"
@@ -101,6 +120,19 @@ const Header: React.FC = () => {
         </div>
         {/* Mobile profile and menu button */}
         <div className="lg:hidden flex items-center space-x-4">
+          {/* Cart Icon */}
+          <button
+            className="relative p-2 rounded-full hover:bg-gray-100 transition"
+            aria-label="Cart"
+            onClick={() => setCartOpen(true)}
+          >
+            <FaShoppingCart className="w-7 h-7 text-gray-700" />        
+            {cart.length > 0 && (
+              <span className="absolute top-1 right-1 bg-red-600 text-white text-xs rounded-full px-1.5 py-0.5">
+                {cart.length}
+              </span>
+            )}
+          </button>
           <button
             className="ml-4 p-2 rounded-full hover:bg-gray-100 transition"
             aria-label="Profile"
@@ -195,6 +227,7 @@ const Header: React.FC = () => {
           <p className="text-blue-900 font-bold">{contactInfo.numbers}</p>
         </div>
       </div>
+      <CartSidebar isOpen={cartOpen} onClose={() => setCartOpen(false)} />
       <CustomerLogin isOpen={loginOpen} onClose={() => setLoginOpen(false)} />
     </header>
   );
